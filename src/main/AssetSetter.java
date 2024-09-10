@@ -1,5 +1,7 @@
 package main;
 
+import entity.Entity;
+import entity.Npc;
 import object.*;
 
 public class AssetSetter {
@@ -55,5 +57,17 @@ public class AssetSetter {
 //		if (object.getClass() == ObjectDoor.class) {
 //
 //		}
+	}
+
+	public void setEntity() {
+		createEntity(new Npc(gp), 43, 26);
+		//
+	}
+
+	void createEntity(Entity entity, int x, int y) {
+		gp.entities.add(entity);
+		int lastIndex = gp.entities.size() - 1;
+		gp.entities.get(lastIndex).worldX = x * gp.tileSize;
+		gp.entities.get(lastIndex).worldY = y * gp.tileSize;
 	}
 }

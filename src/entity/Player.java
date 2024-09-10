@@ -3,20 +3,15 @@ package entity;
 import main.KeyHandler;
 import main.GamePanel;
 import main.UtilityTool;
-import object.ObjectDoor;
 import object.ObjectKey;
-import object.SuperObject;
-import tiles.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player extends Entity{
-	GamePanel gp;
 	KeyHandler keyH;
 
 	public final int screenX;
@@ -25,7 +20,8 @@ public class Player extends Entity{
 	public int objIndexColliding = 999;
 
 	public Player (GamePanel gp, KeyHandler keyH) {
-		this.gp = gp;
+		super(gp);
+
 		this.keyH = keyH;
 
 		screenX = gp.screenWidth / 2 - gp.tileSize / 2;
@@ -41,34 +37,21 @@ public class Player extends Entity{
 		getPlayerImage();
 	}
 
-	public void setDefaultValues() {
+	void setDefaultValues() {
 		worldX = gp.worldWidth / 2 - gp.tileSize / 2;
 		worldY = gp.worldHeight / 2 - gp.tileSize / 2;
-		speed = 5;
 		direction = "down";
 	}
 
-	public void getPlayerImage() {
-		up1 = setupPlayerImage("up1");
-		up2 = setupPlayerImage("up2");
-		down1 = setupPlayerImage("down1");
-		down2 = setupPlayerImage("down2");
-		left1 = setupPlayerImage("left1");
-		left2 = setupPlayerImage("left2");
-		right1 = setupPlayerImage("right1");
-		right2 = setupPlayerImage("right2");
-	}
-
-	public BufferedImage setupPlayerImage (String imagePath) {
-		UtilityTool uTool = new UtilityTool();
-		BufferedImage image;
-		try {
-			image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/" + imagePath +".png")));
-			image = uTool.scaledImage(image, gp.tileSize, gp.tileSize);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		return image;
+	void getPlayerImage() {
+		up1 = setupEntityImage("up1");
+		up2 = setupEntityImage("up2");
+		down1 = setupEntityImage("down1");
+		down2 = setupEntityImage("down2");
+		left1 = setupEntityImage("left1");
+		left2 = setupEntityImage("left2");
+		right1 = setupEntityImage("right1");
+		right2 = setupEntityImage("right2");
 	}
 
 	public void update() {
