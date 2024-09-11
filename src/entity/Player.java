@@ -56,8 +56,9 @@ public class Player extends Entity{
 
 	public void update() {
 		// Check object collision
+		int lastColliding = objIndexColliding;
 		objIndexColliding = gp.cChecker.checkObject(this, true);
-		interactObject(objIndexColliding);
+		interactObject(objIndexColliding, lastColliding);
 
 		if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 			if (keyH.upPressed) {
@@ -98,12 +99,15 @@ public class Player extends Entity{
 		}
 	}
 
-	void interactObject(int objIndex) {
-		if (objIndex == 999) {
+	void interactObject(int currObjIndex, int lastObjIndex) {
+		if (currObjIndex == 999) {
+			if (lastObjIndex != 999 && gp.obj.get(lastObjIndex).name.equals("door")) {
+				gp.obj.get(lastObjIndex).isActive = true;
+			}
 			return;
 		}
 
-		String objName = gp.obj.get(objIndex).name;
+		String objName = gp.obj.get(currObjIndex).name;
 		switch (objName) {
 			case "yellow_door":
 			case "red_door":
@@ -121,12 +125,12 @@ public class Player extends Entity{
 //							if (gp.obj.get(objIndex).isActive) {
 //								gp.ui.hb.inventory.remove(i);
 //							}
-							gp.obj.get(objIndex).isActive = false;
+							gp.obj.get(currObjIndex).isActive = false;
 							break;
 						}
 					}
 				} else {
-					gp.obj.get(objIndex).isActive = false;
+					gp.obj.get(currObjIndex).isActive = false;
 				}
 				break;
 
@@ -135,7 +139,7 @@ public class Player extends Entity{
 			case "yellow_key":
 			case "purple_key":
 				if (gp.keyHandler.spacePressed && gp.ui.hb.size != 5) {
-					gp.obj.set(objIndex, null);
+					gp.obj.set(currObjIndex, null);
 					for (int i = 0; i < gp.ui.hb.capacity; i++) {
 						if (gp.ui.hb.inventory[i] == null) {
 							gp.ui.hb.inventory[i] = new ObjectKey(gp, objName);

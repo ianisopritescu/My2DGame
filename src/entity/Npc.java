@@ -23,6 +23,7 @@ public class Npc extends Entity{
 	}
 
 	void setDefaultValues() {
+		speed = 1;
 		direction = "down";
 	}
 
@@ -101,12 +102,13 @@ public class Npc extends Entity{
 	}
 
 
-	public int objIndexColliding = 999;
+	public int objIndexColliding = 999; // interacts with nothing (999)
 	public void update () {
 		setAction();
 
+		int lastColliding = objIndexColliding;
 		objIndexColliding = gp.cChecker.checkObject(this, true);
-		interactObject(objIndexColliding);
+		interactObject(objIndexColliding, lastColliding);
 
 		collisionTilesOn = false;
 		gp.cChecker.checkTile(this);
@@ -130,11 +132,16 @@ public class Npc extends Entity{
 		}
 	}
 
-	public void interactObject(int objIndex) {
-		if (objIndex == 999) {
+	public void interactObject(int currObjIndex, int lastObjIndex) {
+		System.out.println("Index of Npc: " + currObjIndex);
+		if (currObjIndex == 999) {
+			if (lastObjIndex != 999 && gp.obj.get(lastObjIndex).name.equals("door")) {
+				gp.obj.get(lastObjIndex).isActive = true;
+			}
 			return;
-		} else if (gp.obj.get(objIndex).name.equals("door")) {
-			gp.obj.get(objIndex).isActive = false;
+		}
+		if (gp.obj.get(currObjIndex).name.equals("door")) {
+			gp.obj.get(currObjIndex).isActive = false;
 		}
 	}
 }

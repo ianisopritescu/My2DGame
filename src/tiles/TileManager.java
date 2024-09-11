@@ -10,6 +10,7 @@ import java.util.Objects;
 
 public class TileManager {
 	GamePanel gp;
+	UtilityTool uTool = new UtilityTool();
 	public Tile[] tile;
 	public int[][] mapTileNum;
 
@@ -94,11 +95,7 @@ public class TileManager {
 			double screenX = worldX - gp.player.worldX + gp.player.screenX;
 			double screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-			if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-				worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-				worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-				worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-
+			if (uTool.isObjectVisibleInScreen(worldX, worldY, gp)) {
 				g2d.drawImage(tile[tileNum].image, (int) screenX, (int) screenY, gp.tileSize, gp.tileSize, null);
 			}
 			worldCol++;

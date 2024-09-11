@@ -124,7 +124,7 @@ public class CollisionChecker {
 						break;
 				}
 
-				gp.obj.get(i).isActive = true;
+//				gp.obj.get(i).isActive = true;
 				entity.collisionObjOn = false;
 			}
 		}

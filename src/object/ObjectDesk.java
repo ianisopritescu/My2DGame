@@ -80,6 +80,8 @@ public class ObjectDesk extends SuperObject{
 		g2d.setStroke(new BasicStroke(3f));
 		g2d.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, arcWidth, arcHeight);
 	}
+
+	// !!!! Have to be fixed !!!!
 	public void getItems() {
 		int invIndex = slotCol + (slotRow) * 5 + 1;
 		if (gp.ui.hb.slotSelected > 0) {

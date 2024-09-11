@@ -7,14 +7,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class SuperObject {
+	public UtilityTool uTool = new UtilityTool();
 	public GamePanel gp;
+
 	public BufferedImage image;
 	public String name;
+
 	public boolean collision = false;
+
 	public int worldX, worldY;
 	public Rectangle solidArea;
+
 	public boolean isActive = true;
-	public UtilityTool uTool = new UtilityTool();
 
 	public SuperObject(GamePanel gp) {
 		this.gp = gp;

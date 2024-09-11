@@ -13,4 +13,11 @@ public class UtilityTool {
 
 		return scaledImage;
 	}
+
+	public boolean isObjectVisibleInScreen(int worldX, int worldY, GamePanel gp) {
+		return worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+				worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+				worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+				worldY - gp.tileSize < gp.player.worldY + gp.player.screenY;
+	}
 }
