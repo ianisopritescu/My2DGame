@@ -12,6 +12,7 @@ import java.util.Objects;
 public class Entity {
 	final private int speedDefaultValue = 4;
 	GamePanel gp;
+	UtilityTool uTool = new UtilityTool();
 
 	public int worldX, worldY;
 	public int speed = speedDefaultValue;
@@ -25,6 +26,7 @@ public class Entity {
 	public Rectangle solidArea;
 	public boolean collisionTilesOn;
 	public boolean collisionObjOn;
+
 
 	public Entity(GamePanel gp) {
 		this.gp = gp;
@@ -40,6 +42,19 @@ public class Entity {
 			throw new RuntimeException(e);
 		}
 		return image;
+	}
+
+	boolean canMove(int objIndex) {
+		if (collisionTilesOn) {
+			return false;
+		}
+
+		if (objIndex != 999 && gp.obj.get(objIndex) != null &&
+				gp.obj.get(objIndex).collision && collisionObjOn && gp.obj.get(objIndex).isActive) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public void setAction() {}

@@ -98,19 +98,6 @@ public class Player extends Entity{
 		}
 	}
 
-	boolean canMove(int objIndex) {
-		if (collisionTilesOn) {
-			return false;
-		}
-
-		if (objIndex != 999 && gp.obj.get(objIndex) != null &&
-				gp.obj.get(objIndex).collision && collisionObjOn && gp.obj.get(objIndex).isActive) {
-			return false;
-		}
-
-		return true;
-	}
-
 	void interactObject(int objIndex) {
 		if (objIndex == 999) {
 			return;
