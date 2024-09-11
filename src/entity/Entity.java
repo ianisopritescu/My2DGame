@@ -24,8 +24,7 @@ public class Entity {
 	public int spriteNum = 1;
 
 	public Rectangle solidArea;
-	public boolean collisionTilesOn;
-	public boolean collisionObjOn;
+	public boolean collisionOn;
 
 
 	public Entity(GamePanel gp) {
@@ -42,19 +41,6 @@ public class Entity {
 			throw new RuntimeException(e);
 		}
 		return image;
-	}
-
-	boolean canMove(int objIndex) {
-		if (collisionTilesOn) {
-			return false;
-		}
-
-		if (objIndex != 999 && gp.obj.get(objIndex) != null &&
-				gp.obj.get(objIndex).collision && collisionObjOn && gp.obj.get(objIndex).isActive) {
-			return false;
-		}
-
-		return true;
 	}
 
 	public void setAction() {}

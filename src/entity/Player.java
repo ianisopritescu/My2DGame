@@ -2,14 +2,10 @@ package entity;
 
 import main.KeyHandler;
 import main.GamePanel;
-import main.UtilityTool;
 import object.ObjectKey;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
 
 public class Player extends Entity{
 	KeyHandler keyH;
@@ -55,13 +51,8 @@ public class Player extends Entity{
 	}
 
 	public void update() {
-		// Check object collision
-		int lastColliding = objIndexColliding;
-		objIndexColliding = gp.cChecker.checkObject(this, true);
-		interactObject(objIndexColliding, lastColliding);
-
-		int npcIndex = gp.cChecker.checkNpc(this);
-		interactNpc(npcIndex);
+//		int npcIndex = gp.cChecker.checkNpc(this);
+//		interactNpc(npcIndex);
 
 		if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 			if (keyH.upPressed) {
@@ -78,11 +69,17 @@ public class Player extends Entity{
 			}
 
 			// Check tile collision
-			collisionTilesOn = false;
+			collisionOn = false;
 			gp.cChecker.checkTile(this);
 
+			if (!collisionOn) {
+				int lastColliding = objIndexColliding;
+				objIndexColliding = gp.cChecker.checkObject(this, true);
+				interactObject(objIndexColliding, lastColliding);
+			}
+
 			// If collision with tiles or objects is false, player can move
-			if (canMove(objIndexColliding)) {
+			if (!collisionOn) {
 				switch(direction) {
 					case "up": worldY -= speed; break;
 					case "down": worldY += speed; break;
@@ -131,15 +128,14 @@ public class Player extends Entity{
 				if (!objName.equals("door")) {
 					for (int i = 0; i < gp.ui.hb.size; i++) {
 						if (gp.ui.hb.inventory[i].name.contains(key)) {
-//							if (gp.obj.get(objIndex).isActive) {
-//								gp.ui.hb.inventory.remove(i);
-//							}
 							gp.obj.get(currObjIndex).isActive = false;
+							collisionOn = false;
 							break;
 						}
 					}
 				} else {
 					gp.obj.get(currObjIndex).isActive = false;
+					collisionOn = false;
 				}
 				break;
 

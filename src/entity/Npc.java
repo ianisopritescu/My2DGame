@@ -105,14 +105,16 @@ public class Npc extends Entity{
 	public void update () {
 		setAction();
 
-		int lastColliding = objIndexColliding;
-		objIndexColliding = gp.cChecker.checkObject(this, true);
-		interactObject(objIndexColliding, lastColliding);
-
-		collisionTilesOn = false;
+		collisionOn = false;
 		gp.cChecker.checkTile(this);
 
-		if (canMove(objIndexColliding)) {
+		if (!collisionOn) {
+			int lastColliding = objIndexColliding;
+			objIndexColliding = gp.cChecker.checkObject(this, true);
+			interactObject(objIndexColliding, lastColliding);
+		}
+
+		if (!collisionOn) {
 			switch(direction) {
 				case "up": worldY -= speed; break;
 				case "down": worldY += speed; break;
@@ -140,6 +142,7 @@ public class Npc extends Entity{
 		}
 		if (gp.obj.get(currObjIndex).name.equals("door")) {
 			gp.obj.get(currObjIndex).isActive = false;
+			collisionOn = false;
 		}
 	}
 }
