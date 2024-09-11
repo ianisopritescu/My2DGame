@@ -1,7 +1,6 @@
 package entity;
 
 import main.GamePanel;
-import object.ObjectKey;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -133,7 +132,6 @@ public class Npc extends Entity{
 	}
 
 	public void interactObject(int currObjIndex, int lastObjIndex) {
-		System.out.println("Index of Npc: " + currObjIndex);
 		if (currObjIndex == 999) {
 			if (lastObjIndex != 999 && gp.obj.get(lastObjIndex).name.equals("door")) {
 				gp.obj.get(lastObjIndex).isActive = true;

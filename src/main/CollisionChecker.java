@@ -1,6 +1,8 @@
 package main;
 
 import entity.Entity;
+import entity.Npc;
+import entity.Player;
 
 import java.awt.*;
 
@@ -124,12 +126,66 @@ public class CollisionChecker {
 						break;
 				}
 
-//				gp.obj.get(i).isActive = true;
 				entity.collisionObjOn = false;
 			}
 		}
 
 		return 999;
+	}
+
+	public int checkNpc(Player player) {
+
+		for (int i = 0; i < gp.entities.size(); i++) {
+
+			if (gp.entities.get(i) != null) {
+
+				Npc npc = (Npc) gp.entities.get(i);
+
+				// Get entity's solid area position
+				int playerX = player.worldX + player.solidArea.x;
+				int playerY = player.worldY + player.solidArea.y;
+				Rectangle playerRect = new Rectangle(playerX, playerY, player.solidArea.width, player.solidArea.height);
+
+				// Get object's solid area position
+				int npcX = npc.worldX + npc.solidArea.x;
+				int npcY = npc.worldY + npc.solidArea.y;
+				Rectangle npcRect = new Rectangle(npcX, npcY, npc.solidArea.width, npc.solidArea.height);
+
+				switch (player.direction) {
+					case "up":
+						playerRect.y -= player.speed;
+						if (playerRect.intersects(npcRect)) {
+							player.collisionTilesOn = true;
+							return i;
+						}
+						break;
+					case "down":
+						playerRect.y += player.speed;
+						if (playerRect.intersects(npcRect)) {
+							player.collisionTilesOn = true;
+							return i;
+						}
+						break;
+					case "left":
+						playerRect.x -= player.speed;
+						if (playerRect.intersects(npcRect)) {
+							player.collisionTilesOn = true;
+							return i;
+						}
+						break;
+					case "right":
+						playerRect.x += player.speed;
+						if (playerRect.intersects(npcRect)) {
+							player.collisionTilesOn = true;
+							return i;
+						}
+						break;
+				}
+			}
+		}
+
+		return 999;
+
 	}
 
 }

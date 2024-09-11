@@ -60,6 +60,9 @@ public class Player extends Entity{
 		objIndexColliding = gp.cChecker.checkObject(this, true);
 		interactObject(objIndexColliding, lastColliding);
 
+		int npcIndex = gp.cChecker.checkNpc(this);
+		interactNpc(npcIndex);
+
 		if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 			if (keyH.upPressed) {
 				direction = "up";
@@ -99,9 +102,15 @@ public class Player extends Entity{
 		}
 	}
 
+	void interactNpc(int npcIndex) {
+		if (npcIndex != 999) {
+			System.out.println("You are hitting an npc!");
+		}
+	}
+
 	void interactObject(int currObjIndex, int lastObjIndex) {
 		if (currObjIndex == 999) {
-			if (lastObjIndex != 999 && gp.obj.get(lastObjIndex).name.equals("door")) {
+			if (lastObjIndex != 999 && gp.obj.get(lastObjIndex).name.contains("door")) {
 				gp.obj.get(lastObjIndex).isActive = true;
 			}
 			return;
