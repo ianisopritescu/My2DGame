@@ -76,26 +76,13 @@ public class Player extends Entity{
 				int lastColliding = objIndexColliding;
 				objIndexColliding = gp.cChecker.checkObject(this, true);
 				interactObject(objIndexColliding, lastColliding);
+
 			}
 
-			// If collision with tiles or objects is false, player can move
-			if (!collisionOn) {
-				switch(direction) {
-					case "up": worldY -= speed; break;
-					case "down": worldY += speed; break;
-					case "left": worldX -= speed; break;
-					case "right": worldX += speed; break;
-				}
-			}
 
-			spriteCounter ++;
-			if (spriteCounter > 9) {
-				if (spriteNum == 1)
-					spriteNum = 2;
-				else if (spriteNum == 2)
-					spriteNum = 1;
-				spriteCounter = 0;
-			}
+			move();
+
+			changeSprite();
 		}
 	}
 
@@ -106,10 +93,13 @@ public class Player extends Entity{
 	}
 
 	void interactObject(int currObjIndex, int lastObjIndex) {
-		if (currObjIndex == 999) {
-			if (lastObjIndex != 999 && gp.obj.get(lastObjIndex).name.contains("door")) {
+		if (lastObjIndex != 999 && lastObjIndex != currObjIndex) {
+			if (gp.obj.get(lastObjIndex).name.contains("door")) {
 				gp.obj.get(lastObjIndex).isActive = true;
 			}
+		}
+
+		if (currObjIndex == 999) {
 			return;
 		}
 
@@ -156,6 +146,9 @@ public class Player extends Entity{
 			case "Desk":
 				break;
 		}
+
+		System.out.println(lastObjIndex + " " + currObjIndex);
+
 	}
 
 	public void draw(Graphics2D g2d) {

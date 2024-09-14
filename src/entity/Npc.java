@@ -83,21 +83,17 @@ public class Npc extends Entity{
 		if (actionLockCounter == 120) {
 
 			Random randNum = new Random();
-			int i = randNum.nextInt(100) + 1;
+			int i = randNum.nextInt(4) + 1;
 
-			if (i < 25) {
-				direction = "up";
-			} else if (i < 50) {
-				direction = "left";
-			} else if (i < 75) {
-				direction = "down";
-			} else if (i < 100) {
-				direction = "right";
+			switch (i) {
+				case 1: direction = "up"; break;
+				case 2: direction = "left"; break;
+				case 3: direction = "down"; break;
+				case 4: direction = "right"; break;
 			}
 
 			actionLockCounter = 0;
 		}
-
 	}
 
 
@@ -114,30 +110,18 @@ public class Npc extends Entity{
 			interactObject(objIndexColliding, lastColliding);
 		}
 
-		if (!collisionOn) {
-			switch(direction) {
-				case "up": worldY -= speed; break;
-				case "down": worldY += speed; break;
-				case "left": worldX -= speed; break;
-				case "right": worldX += speed; break;
-			}
-		}
+		move();
 
-		spriteCounter ++;
-		if (spriteCounter > 9) {
-			if (spriteNum == 1)
-				spriteNum = 2;
-			else if (spriteNum == 2)
-				spriteNum = 1;
-			spriteCounter = 0;
-		}
+		changeSprite();
 	}
 
 	public void interactObject(int currObjIndex, int lastObjIndex) {
-		if (currObjIndex == 999) {
-			if (lastObjIndex != 999 && gp.obj.get(lastObjIndex).name.equals("door")) {
+		if (lastObjIndex != 999 && lastObjIndex != objIndexColliding) {
+			if (gp.obj.get(lastObjIndex).name.contains("door")) {
 				gp.obj.get(lastObjIndex).isActive = true;
 			}
+		}
+		if (currObjIndex == 999) {
 			return;
 		}
 		if (gp.obj.get(currObjIndex).name.equals("door")) {

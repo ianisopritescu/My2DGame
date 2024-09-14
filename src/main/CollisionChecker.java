@@ -63,6 +63,7 @@ public class CollisionChecker {
 		}
 	}
 
+	// check by player direction, which objects will collide with
 	public int checkObject(Entity entity, boolean isPlayer) {
 
 		for (int i = 0; i < gp.obj.size(); i++) {
@@ -80,50 +81,19 @@ public class CollisionChecker {
 				Rectangle objectRect = new Rectangle(objectX, objectY, gp.obj.get(i).solidArea.width, gp.obj.get(i).solidArea.height);
 
 				switch (entity.direction) {
-					case "up":
-						entityRect.y -= entity.speed;
-						if (entityRect.intersects(objectRect)) {
-							if (gp.obj.get(i).collision) {
-								entity.collisionOn = true;
-							}
-							if (isPlayer) {
-								return i;
-							}
-						}
-						break;
-					case "down":
-						entityRect.y += entity.speed;
-						if (entityRect.intersects(objectRect)) {
-							if (gp.obj.get(i).collision) {
-								entity.collisionOn = true;
-							}
-							if (isPlayer) {
-								return i;
-							}
-						}
-						break;
-					case "left":
-						entityRect.x -= entity.speed;
-						if (entityRect.intersects(objectRect)) {
-							if (gp.obj.get(i).collision) {
-								entity.collisionOn = true;
-							}
-							if (isPlayer) {
-								return i;
-							}
-						}
-						break;
-					case "right":
-						entityRect.x += entity.speed;
-						if (entityRect.intersects(objectRect)) {
-							if (gp.obj.get(i).collision) {
-								entity.collisionOn = true;
-							}
-							if (isPlayer) {
-								return i;
-							}
-						}
-						break;
+					case "up": entityRect.y -= entity.speed; break;
+					case "down": entityRect.y += entity.speed; break;
+					case "left": entityRect.x -= entity.speed; break;
+					case "right": entityRect.x += entity.speed; break;
+				}
+
+				if (entityRect.intersects(objectRect)) {
+					if (gp.obj.get(i).collision) {
+						entity.collisionOn = true;
+					}
+					if (isPlayer) {
+						return i;
+					}
 				}
 			}
 		}

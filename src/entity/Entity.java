@@ -43,6 +43,30 @@ public class Entity {
 		return image;
 	}
 
+
+	public void move() {
+		// If collision with tiles or objects is false, player can move
+		if (!collisionOn) {
+			switch(direction) {
+				case "up": worldY -= speed; break;
+				case "down": worldY += speed; break;
+				case "left": worldX -= speed; break;
+				case "right": worldX += speed; break;
+			}
+		}
+	}
+
+	public void changeSprite() {
+		spriteCounter ++;
+		if (spriteCounter > 9) {
+			if (spriteNum == 1)
+				spriteNum = 2;
+			else if (spriteNum == 2)
+				spriteNum = 1;
+			spriteCounter = 0;
+		}
+	}
+
 	public void setAction() {}
 	public void update() {}
 }
