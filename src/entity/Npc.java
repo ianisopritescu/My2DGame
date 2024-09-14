@@ -22,7 +22,7 @@ public class Npc extends Entity{
 	}
 
 	void setDefaultValues() {
-		speed = 1;
+		speed = 2;
 		direction = "down";
 	}
 
@@ -126,7 +126,7 @@ public class Npc extends Entity{
 		}
 		if (gp.obj.get(currObjIndex).name.equals("door")) {
 			gp.obj.get(currObjIndex).isActive = false;
-			collisionOn = false;
+//			collisionOn = false;
 		}
 	}
 }
