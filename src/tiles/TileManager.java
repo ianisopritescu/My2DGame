@@ -60,14 +60,15 @@ public class TileManager {
 		}
 	}
 
-	public void loadMap(String filepath) {
+	public void loadMap(final String filepath) {
 		try {
 			InputStream is = new FileInputStream(filepath);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 			for (int row = 0; row < gp.maxWorldRow; row ++) {
+				String line = br.readLine();
+				String[] numbers = line.split(" ");
 				for (int col = 0; col < gp.maxWorldCol; col++) {
-					String[] numbers = br.readLine().split(" ");
 					mapTileNum[row][col] = Integer.parseInt(numbers[col]);
 				}
 			}
