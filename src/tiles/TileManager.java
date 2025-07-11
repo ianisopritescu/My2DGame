@@ -9,21 +9,24 @@ import java.io.*;
 import java.util.Objects;
 
 public class TileManager {
-	GamePanel gp;
-	UtilityTool uTool = new UtilityTool();
+	private final GamePanel gp;
+	private final UtilityTool uTool;
 	public Tile[] tile;
 	public int[][] mapTileNum;
 
+//	boolean drawPath = true;
+
 	public TileManager(GamePanel gp){
 		this.gp = gp;
-		tile = new Tile[20];
-		mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
+		this.uTool = new UtilityTool();
+		this.tile = new Tile[20];
+		this.mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
 
 		getTileImage();
 		loadMap("resources/maps/map2.txt");
 	}
 
-	public void getTileImage() {
+	private void getTileImage() {
 		setupTileImage(0, "grass", false);
 		setupTileImage(1, "wall", true);
 		setupTileImage(2, "water", true);
@@ -41,11 +44,15 @@ public class TileManager {
 		setupTileImage(15, "bars", true);
 	}
 
-	public void setupTileImage(int index, String imagePath, boolean collision) {
+	private void setupTileImage(int index, String imagePath, boolean collision) {
 		UtilityTool uTool = new UtilityTool();
 		try {
 			tile[index] = new Tile();
-			tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/" + imagePath +".png")));
+			tile[index].image = ImageIO.read(
+					Objects.requireNonNull(
+							getClass().getResourceAsStream("/tiles/" + imagePath +".png")
+					)
+			);
 			tile[index].image = uTool.scaledImage(tile[index].image, gp.tileSize, gp.tileSize);
 			tile[index].collision = collision;
 		} catch (IOException e) {
@@ -58,21 +65,10 @@ public class TileManager {
 			InputStream is = new FileInputStream(filepath);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-			int col = 0;
-			int row = 0;
-
-			while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
-				String line = br.readLine();
-				while (col < gp.maxWorldCol) {
-					String[] numbers = line.split(" ");
-					int num = Integer.parseInt(numbers[col]);
-					mapTileNum[row][col] = num;
-					col++;
-				}
-
-				if (col == gp.maxWorldCol) {
-					col = 0;
-					row++;
+			for (int row = 0; row < gp.maxWorldRow; row ++) {
+				for (int col = 0; col < gp.maxWorldCol; col++) {
+					String[] numbers = br.readLine().split(" ");
+					mapTileNum[row][col] = Integer.parseInt(numbers[col]);
 				}
 			}
 
@@ -84,26 +80,33 @@ public class TileManager {
 	}
 
 	public void draw(Graphics2D g2d) {
-		int worldCol = 0;
-		int worldRow = 0;
+		for (int worldRow = 0; worldRow < gp.maxWorldRow; worldRow++) {
+			for (int worldCol = 0; worldCol < gp.maxWorldCol; worldCol++) {
+				int tileNum = mapTileNum[worldRow][worldCol];
 
-		while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
-			int tileNum = mapTileNum[worldRow][worldCol];
+				int worldX = worldCol * gp.tileSize;
+				int worldY = worldRow * gp.tileSize;
+				int screenX = worldX - gp.player.worldX + gp.player.screenX;
+				int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-			int worldX = worldCol * gp.tileSize;
-			int worldY = worldRow * gp.tileSize;
-			double screenX = worldX - gp.player.worldX + gp.player.screenX;
-			double screenY = worldY - gp.player.worldY + gp.player.screenY;
-
-			if (uTool.isObjectVisibleInScreen(worldX, worldY, gp)) {
-				g2d.drawImage(tile[tileNum].image, (int) screenX, (int) screenY, gp.tileSize, gp.tileSize, null);
-			}
-			worldCol++;
-
-			if (worldCol == gp.maxWorldCol) {
-				worldCol = 0;
-				worldRow++;
+				if (uTool.isObjectVisibleInScreen(worldX, worldY, gp)) {
+					g2d.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+				}
 			}
 		}
+
+//		if (drawPath) {
+//			g2d.setColor(new Color(255, 0, 0, 70));
+//
+//			for (int i = 0; i < gp.pathFinder.pathList.size(); i ++) {
+//				int worldX = gp.pathFinder.pathList.get(i).col * gp.tileSize;
+//				int worldY = gp.pathFinder.pathList.get(i).row * gp.tileSize;
+//
+//				int screenX = worldX - gp.player.worldX + gp.player.screenX;
+//				int screenY = worldY - gp.player.worldY + gp.player.screenY;
+//
+//				g2d.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+//			}
+//		}
 	}
 }
