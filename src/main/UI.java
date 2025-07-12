@@ -32,11 +32,11 @@ public class UI {
 			drawPauseScreen();
 		}
 		if (gp.gameState == gp.deskState) {
-			((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).drawInventory(g2d);
+			((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).drawInventory(g2d);
 			drawHotbar();
 		}
 		if (gp.gameState == gp.toiletState) {
-			((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).drawInventory(g2d);
+			((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).drawInventory(g2d);
 			drawHotbar();
 		}
 	}

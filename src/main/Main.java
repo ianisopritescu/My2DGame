@@ -2,12 +2,12 @@ package main;
 
 import javax.swing.JFrame;
 
-public class Main {
+pudblic class Main {
 	public static void main(String[] args) {
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
-		window.setTitle("Prisoners' life");
+		window.setTitle("Prisoners");
 		window.setUndecorated(false);
 
 		GamePanel gamePanel = new GamePanel();

@@ -78,20 +78,20 @@ public class KeyHandler implements KeyListener {
 			gp.gameState = gp.playState;
 		}
 		if (code == KeyEvent.VK_W) {
-			if (((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).slotRow != 0)
-				((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).slotRow --;
+			if (((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotRow != 0)
+				((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotRow --;
 		}
 		if (code == KeyEvent.VK_S) {
-			if (((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).slotRow != ((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).maxSlotRow)
-				((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).slotRow ++;
+			if (((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotRow != ((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).maxSlotRow)
+				((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotRow ++;
 		}
 		if (code == KeyEvent.VK_D) {
-			if (((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).slotCol != ((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).maxSlotCol)
-				((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).slotCol ++;
+			if (((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotCol != ((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).maxSlotCol)
+				((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotCol ++;
 		}
 		if (code == KeyEvent.VK_A) {
-			if (((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).slotCol != 0)
-				((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).slotCol --;
+			if (((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotCol != 0)
+				((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotCol --;
 		}
 		if (code >= KeyEvent.VK_1 && code <= KeyEvent.VK_5) {
 			if (gp.ui.hb.slotSelected == code - KeyEvent.VK_1 + 1) {
@@ -101,7 +101,7 @@ public class KeyHandler implements KeyListener {
 			}
 		}
 		if (code == KeyEvent.VK_ENTER) {
-			((ObjectDesk)gp.obj.get(gp.player.objIndexColliding)).getItems();
+			((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).getItems();
 		}
 	}
 	void toiletState (int code) {
@@ -109,20 +109,20 @@ public class KeyHandler implements KeyListener {
 			gp.gameState = gp.playState;
 		}
 		if (code == KeyEvent.VK_W) {
-			if (((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).slotRow != 0)
-				((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).slotRow --;
+			if (((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotRow != 0)
+				((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotRow --;
 		}
 		if (code == KeyEvent.VK_S) {
-			if (((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).slotRow != ((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).maxSlotRow)
-				((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).slotRow ++;
+			if (((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotRow != ((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).maxSlotRow)
+				((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotRow ++;
 		}
 		if (code == KeyEvent.VK_D) {
-			if (((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).slotCol != ((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).maxSlotCol)
-				((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).slotCol ++;
+			if (((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotCol != ((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).maxSlotCol)
+				((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotCol ++;
 		}
 		if (code == KeyEvent.VK_A) {
-			if (((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).slotCol != 0)
-				((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).slotCol --;
+			if (((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotCol != 0)
+				((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotCol --;
 		}
 		if (code >= KeyEvent.VK_1 && code <= KeyEvent.VK_5) {
 			if (gp.ui.hb.slotSelected == code - KeyEvent.VK_1 + 1) {
@@ -132,7 +132,7 @@ public class KeyHandler implements KeyListener {
 			}
 		}
 //		if (code == KeyEvent.VK_ENTER) {
-//			((ObjectToilet)gp.obj.get(gp.player.objIndexColliding)).getItemFromHotbar();
+//			((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).getItemFromHotbar();
 //		}
 	}
 	void playState(int code) {
@@ -162,10 +162,10 @@ public class KeyHandler implements KeyListener {
 			}
 		}
 		if (code == KeyEvent.VK_E) {
-			if (gp.player.objIndexColliding != 999) {
-				if (gp.obj.get(gp.player.objIndexColliding).name.equals("Desk"))
+			if (gp.player.objPointColliding != null) {
+				if (gp.objMap.get(gp.player.objPointColliding).name.equals("Desk"))
 					gp.gameState = gp.deskState;
-				if (gp.obj.get(gp.player.objIndexColliding).name.equals("toilet"))
+				if (gp.objMap.get(gp.player.objPointColliding).name.equals("toilet"))
 					gp.gameState = gp.toiletState;
 			}
 		}

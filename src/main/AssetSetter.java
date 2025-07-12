@@ -2,6 +2,8 @@ package main;
 
 import object.*;
 
+import java.awt.*;
+
 public class AssetSetter {
 	private final GamePanel gp;
 	public AssetSetter(final GamePanel gp) {
@@ -40,14 +42,12 @@ public class AssetSetter {
 		createObject(new ObjectToilet(gp), 51, 31);
 	}
 
-	private void createObject(final SuperObject object,
+	private void createObject(final SuperObject newObject,
 							  final int x,
 							  final int y) {
-
-		gp.obj.add(object);
-		int lastIndex = gp.obj.size() - 1;
-		gp.obj.get(lastIndex).worldX = x * gp.tileSize;
-		gp.obj.get(lastIndex).worldY = y * gp.tileSize;
+		newObject.worldX = x * gp.tileSize;
+		newObject.worldY = y * gp.tileSize;
+		gp.objMap.put(new Point(x, y), newObject);
 	}
 
 //	public void setEntity() {

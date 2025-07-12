@@ -6,6 +6,7 @@ import object.ObjectKey;
 import object.SuperObject;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,6 +46,6 @@ public class Hotbar {
 		inventory[itemNum] = null;
 		item.worldX = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize * gp.tileSize;
 		item.worldY = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize * gp.tileSize;
-		gp.obj.add(item);
+		gp.objMap.put(new Point(item.worldX, item.worldY), item);
 	}
 }

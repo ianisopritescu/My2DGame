@@ -1,6 +1,5 @@
 package entity;
 
-import main.Consts;
 import main.KeyHandler;
 import main.GamePanel;
 import object.ObjectKey;
@@ -14,7 +13,7 @@ public class Player extends Entity{
 	public final int screenX;
 	public final int screenY;
 
-	public int objIndexColliding = 999;
+	public Point objPointColliding = null;
 
 	public Player (GamePanel gp, KeyHandler keyH) {
 		super(gp);
@@ -35,10 +34,9 @@ public class Player extends Entity{
 	}
 
 	void setDefaultValues() {
+		// Player will spawn at coords(45, 25)
 		worldX = 45 * gp.tileSize;
 		worldY = 25 * gp.tileSize;
-//		worldX = gp.worldWidth / 2 - gp.tileSize / 2;
-//		worldY = gp.worldHeight / 2 - gp.tileSize / 2;
 		direction = "down";
 	}
 
@@ -80,33 +78,28 @@ public class Player extends Entity{
 				return;
 
 			// Check object collision
-			int lastColliding = objIndexColliding;
-			objIndexColliding = gp.cChecker.checkObject(this, true);
-			interactObject(objIndexColliding, lastColliding);
-
-			// Player interacted with an object
-			if (collisionOn)
-				return;
+			Point lastColliding = objPointColliding;
+			objPointColliding = gp.cChecker.checkObject(this, true);
+			interactObject(objPointColliding, lastColliding);
 
 			move();
 			changeSprite();
 		}
 	}
 
-	void interactObject(int currObjIndex, int lastObjIndex) {
+	void interactObject(Point currObjPoint, Point lastObjPoint) {
 		// last object is a door, and now player doesn't collide with the same door
-		if (lastObjIndex != Consts.NO_OBJECT &&
-				lastObjIndex != currObjIndex &&
-				gp.obj.size() > lastObjIndex &&
-				gp.obj.get(lastObjIndex).name.contains("door")) {
-				gp.obj.get(lastObjIndex).isActive = true;
+		if (lastObjPoint != null &&
+				!lastObjPoint.equals(currObjPoint) &&
+				gp.objMap.get(lastObjPoint).name.contains("door")) {
+				gp.objMap.get(lastObjPoint).isActive = true;
 		}
 
-		if (currObjIndex == Consts.NO_OBJECT) {
+		if (currObjPoint == null) {
 			return;
 		}
 
-		String objName = gp.obj.get(currObjIndex).name;
+		String objName = gp.objMap.get(currObjPoint).name;
 		switch (objName) {
 			case "yellow_door":
 			case "red_door":
@@ -121,13 +114,13 @@ public class Player extends Entity{
 				if (!objName.equals("door")) {
 					for (int i = 0; i < gp.ui.hb.size; i++) {
 						if (gp.ui.hb.inventory[i].name.contains(key)) {
-							gp.obj.get(currObjIndex).isActive = false;
+							gp.objMap.get(currObjPoint).isActive = false;
 							collisionOn = false;
 							break;
 						}
 					}
 				} else {
-					gp.obj.get(currObjIndex).isActive = false;
+					gp.objMap.get(currObjPoint).isActive = false;
 					collisionOn = false;
 				}
 				break;
@@ -137,7 +130,7 @@ public class Player extends Entity{
 			case "yellow_key":
 			case "purple_key":
 				if (gp.keyHandler.spacePressed && gp.ui.hb.size != 5) {
-					gp.obj.remove(currObjIndex);
+					gp.objMap.remove(currObjPoint);
 					for (int i = 0; i < gp.ui.hb.capacity; i++) {
 						if (gp.ui.hb.inventory[i] == null) {
 							gp.ui.hb.inventory[i] = new ObjectKey(gp, objName);
@@ -149,9 +142,6 @@ public class Player extends Entity{
 			case "Desk":
 				break;
 		}
-
-//		System.out.println(lastObjIndex + " " + currObjIndex);
-
 	}
 
 	public void draw(Graphics2D g2d) {

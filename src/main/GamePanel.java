@@ -3,6 +3,8 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import algorithms.PathFinder;
 import entity.Entity;
@@ -46,7 +48,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public Player player = new Player(this, keyHandler);
 	public TileManager tileM = new TileManager(this);
 	public PathFinder pathFinder = new PathFinder(this);
-	public ArrayList<SuperObject> obj = new ArrayList<>();
+	public Map<Point, SuperObject> objMap = new HashMap<Point, SuperObject>();
 	public ArrayList<Entity> entities = new ArrayList<>();
 
 	public GamePanel() {
@@ -58,7 +60,6 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void setupGame() {
-//		aSetter.setEntity();
 		aSetter.setObject();
 		gameState = titleState;
 	}
@@ -144,10 +145,10 @@ public class GamePanel extends JPanel implements Runnable {
 			// Tiles
 			tileM.draw(g2d);
 
-			// Objects
-			for (SuperObject superObject : obj) {
-				superObject.draw(g2d, this);
-			}
+			// Objects - lambda Implementation
+			objMap.values().forEach(obj -> {
+				obj.draw(g2d);
+			});
 
 			// Entities
 //			for (Entity entity : entities) {
@@ -188,8 +189,7 @@ public class GamePanel extends JPanel implements Runnable {
 			// Draw Time
 			long drawEnd = System.nanoTime();
 			long passedTime = drawEnd - drawStart;
-			g2d.drawString("Draw Time: " + passedTime, x, y);
-			// System.out.println("Draw Time: " + passedTime);
+			g2d.drawString("Draw Time: " + passedTime + " milliseconds", x, y);
 		}
 
 		g2d.dispose();

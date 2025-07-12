@@ -3,6 +3,7 @@ package main;
 import entity.Entity;
 import entity.Npc;
 import entity.Player;
+import object.SuperObject;
 
 import java.awt.*;
 
@@ -23,8 +24,7 @@ public class CollisionChecker {
 		int entityTopRow = (int)(entityTopWorldY / gp.tileSize);
 		int entityBottomRow = (int)(entityBottomWorldY / gp.tileSize);
 
-		int tileNum1;
-		int tileNum2;
+		int tileNum1, tileNum2;
 
 		switch (entity.direction) {
 			case "up":
@@ -62,40 +62,58 @@ public class CollisionChecker {
 		}
 	}
 
-	// check by player direction, which objects will collide with
-	public int checkObject(Entity entity, boolean isPlayer) {
-		for (int i = 0; i < gp.obj.size(); i++) {
-			if (gp.obj.get(i) != null) {
-				// Get entity's solid area position
-				int entityX = entity.worldX + entity.solidArea.x;
-				int entityY = entity.worldY + entity.solidArea.y;
-				Rectangle entityRect = new Rectangle(entityX, entityY, entity.solidArea.width, entity.solidArea.height);
+	public Point checkObject(Entity entity, boolean isPlayer) {
 
-				// Get object's solid area position
-				int objectX = gp.obj.get(i).worldX + gp.obj.get(i).solidArea.x;
-				int objectY = gp.obj.get(i).worldY + gp.obj.get(i).solidArea.y;
-				Rectangle objectRect = new Rectangle(objectX, objectY, gp.obj.get(i).solidArea.width, gp.obj.get(i).solidArea.height);
+		double entityLeftWorldX = entity.worldX + entity.solidArea.x;
+		double entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
+		double entityTopWorldY = entity.worldY + entity.solidArea.y;
+		double entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 
-				switch (entity.direction) {
-					case "up": entityRect.y -= entity.speed; break;
-					case "down": entityRect.y += entity.speed; break;
-					case "left": entityRect.x -= entity.speed; break;
-					case "right": entityRect.x += entity.speed; break;
-				}
+		int entityLeftCol = (int)(entityLeftWorldX / gp.tileSize);
+		int entityRightCol = (int)(entityRightWorldX / gp.tileSize);
+		int entityTopRow = (int)(entityTopWorldY / gp.tileSize);
+		int entityBottomRow = (int)(entityBottomWorldY / gp.tileSize);
 
-				// entity collide with object
-				if (entityRect.intersects(objectRect)) {
-					if (gp.obj.get(i).collision) {
-						entity.collisionOn = true;
-					}
-					if (isPlayer) {
-						return i;
-					}
-				}
+		Point point1 = null, point2 = null;
+
+		switch (entity.direction) {
+			case "up":
+				entityTopRow = (int) ((entityTopWorldY - entity.speed) / gp.tileSize);
+				point1 = new Point(entityLeftCol, entityTopRow);
+				point2 = new Point(entityRightCol, entityTopRow);
+				break;
+			case "down":
+				entityBottomRow = (int)((entityBottomWorldY + entity.speed) / gp.tileSize);
+				point1 = new Point(entityLeftCol, entityBottomRow);
+				point2 = new Point(entityRightCol, entityBottomRow);
+				break;
+			case "left":
+				entityLeftCol = (int)((entityLeftWorldX - entity.speed)/ gp.tileSize);
+				point1 = new Point(entityLeftCol, entityTopRow);
+				point2 = new Point(entityLeftCol, entityBottomRow);
+				break;
+			case "right":
+				entityRightCol = (int)((entityRightWorldX + entity.speed)/ gp.tileSize);
+				point1 = new Point(entityRightCol, entityTopRow);
+				point2 = new Point(entityRightCol, entityBottomRow);
+				break;
+		}
+
+		boolean collision1 = gp.objMap.containsKey(point1) &&  gp.objMap.get(point1).collision;
+		boolean collision2 = gp.objMap.containsKey(point2) &&  gp.objMap.get(point2).collision;
+
+		if (collision1 || collision2) {
+			entity.collisionOn = true;
+			if (isPlayer) {
+				if (gp.objMap.containsKey(point1))
+					return point1;
+				else
+					return point2;
 			}
 		}
 
-		return Consts.NO_OBJECT; // there is no object to interact with
+		// there is no object to interact with
+		return null;
 	}
 
 	public int checkNpc(Player player) {

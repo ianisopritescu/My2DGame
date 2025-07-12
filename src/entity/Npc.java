@@ -186,11 +186,11 @@ public class Npc extends Entity{
 		collisionOn = false;
 		gp.cChecker.checkTile(this);
 
-		if (!collisionOn) {
-			int lastColliding = objIndexColliding;
-			objIndexColliding = gp.cChecker.checkObject(this, true);
-			interactObject(objIndexColliding, lastColliding);
-		}
+//		if (!collisionOn) {
+//			int lastColliding = objPointColliding;
+//			objPointColliding = gp.cChecker.checkObject(this, true);
+//			interactObject(objPointColliding, lastColliding);
+//		}
 	}
 
 	public void update () {
@@ -203,18 +203,18 @@ public class Npc extends Entity{
 		changeSprite();
 	}
 
-	public void interactObject(int currObjIndex, int lastObjIndex) {
-		if (lastObjIndex != 999 && lastObjIndex != currObjIndex) {
-			if (gp.obj.get(lastObjIndex).name.contains("door")) {
-				gp.obj.get(lastObjIndex).isActive = true;
-			}
-		}
-		if (currObjIndex == 999) {
-			return;
-		}
-		if (gp.obj.get(currObjIndex).name.equals("door")) {
-			gp.obj.get(currObjIndex).isActive = false;
-//			collisionOn = false;
-		}
-	}
+//	public void interactObject(int currObjIndex, int lastObjIndex) {
+//		if (lastObjIndex != 999 && lastObjIndex != currObjIndex) {
+//			if (gp.obj.get(lastObjIndex).name.contains("door")) {
+//				gp.obj.get(lastObjIndex).isActive = true;
+//			}
+//		}
+//		if (currObjIndex == 999) {
+//			return;
+//		}
+//		if (gp.obj.get(currObjIndex).name.equals("door")) {
+//			gp.obj.get(currObjIndex).isActive = false;
+////			collisionOn = false;
+//		}
+//	}
 }

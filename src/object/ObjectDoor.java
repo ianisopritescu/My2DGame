@@ -29,7 +29,7 @@ public class ObjectDoor extends SuperObject {
 	}
 
 	@Override
-	public void draw(Graphics2D g2d, GamePanel gp) {
+	public void draw(Graphics2D g2d) {
 		if (UtilityTool.isObjectVisibleInScreen(worldX, worldY, gp) && isActive) {
 			int screenX = worldX - gp.player.worldX + gp.player.screenX;
 			int screenY = worldY - gp.player.worldY + gp.player.screenY;

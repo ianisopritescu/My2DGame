@@ -33,7 +33,7 @@ public class ObjectToilet extends SuperObject{
 			this.image = UtilityTool.scaledImage(image, gp.tileSize, gp.tileSize);
 
 			this.invImage = ImageIO.read(Objects.requireNonNull(
-					getClass().getResourceAsStream("/objects/toilet.png")));
+					getClass().getResourceAsStream("/frames/desk_inventory.png")));
 			this.invImage = UtilityTool.scaledImage(invImage,
 					gp.scale * invImage.getWidth(),
 					invImage.getHeight() * gp.scale);
