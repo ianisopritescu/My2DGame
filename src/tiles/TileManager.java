@@ -45,7 +45,6 @@ public class TileManager {
 	}
 
 	private void setupTileImage(int index, String imagePath, boolean collision) {
-		UtilityTool uTool = new UtilityTool();
 		try {
 			tile[index] = new Tile();
 			tile[index].image = ImageIO.read(
@@ -53,7 +52,7 @@ public class TileManager {
 							getClass().getResourceAsStream("/tiles/" + imagePath +".png")
 					)
 			);
-			tile[index].image = uTool.scaledImage(tile[index].image, gp.tileSize, gp.tileSize);
+			tile[index].image = UtilityTool.scaledImage(tile[index].image, gp.tileSize, gp.tileSize);
 			tile[index].collision = collision;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -90,7 +89,7 @@ public class TileManager {
 				int screenX = worldX - gp.player.worldX + gp.player.screenX;
 				int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-				if (uTool.isObjectVisibleInScreen(worldX, worldY, gp)) {
+				if (UtilityTool.isObjectVisibleInScreen(worldX, worldY, gp)) {
 					g2d.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 				}
 			}

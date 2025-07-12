@@ -1,5 +1,6 @@
 package entity;
 
+import main.Consts;
 import main.KeyHandler;
 import main.GamePanel;
 import object.ObjectKey;
@@ -34,8 +35,10 @@ public class Player extends Entity{
 	}
 
 	void setDefaultValues() {
-		worldX = gp.worldWidth / 2 - gp.tileSize / 2;
-		worldY = gp.worldHeight / 2 - gp.tileSize / 2;
+		worldX = 45 * gp.tileSize;
+		worldY = 25 * gp.tileSize;
+//		worldX = gp.worldWidth / 2 - gp.tileSize / 2;
+//		worldY = gp.worldHeight / 2 - gp.tileSize / 2;
 		direction = "down";
 	}
 
@@ -72,34 +75,34 @@ public class Player extends Entity{
 			collisionOn = false;
 			gp.cChecker.checkTile(this);
 
-			if (!collisionOn) {
-				int lastColliding = objIndexColliding;
-				objIndexColliding = gp.cChecker.checkObject(this, true);
-				interactObject(objIndexColliding, lastColliding);
+			// Player interacted with a tile
+			if (collisionOn)
+				return;
 
-			}
+			// Check object collision
+			int lastColliding = objIndexColliding;
+			objIndexColliding = gp.cChecker.checkObject(this, true);
+			interactObject(objIndexColliding, lastColliding);
 
+			// Player interacted with an object
+			if (collisionOn)
+				return;
 
 			move();
-
 			changeSprite();
 		}
 	}
 
-	void interactNpc(int npcIndex) {
-		if (npcIndex != 999) {
-			System.out.println("You are hitting an npc!");
-		}
-	}
-
 	void interactObject(int currObjIndex, int lastObjIndex) {
-		if (lastObjIndex != 999 && lastObjIndex != currObjIndex) {
-			if (gp.obj.get(lastObjIndex).name.contains("door")) {
+		// last object is a door, and now player doesn't collide with the same door
+		if (lastObjIndex != Consts.NO_OBJECT &&
+				lastObjIndex != currObjIndex &&
+				gp.obj.size() > lastObjIndex &&
+				gp.obj.get(lastObjIndex).name.contains("door")) {
 				gp.obj.get(lastObjIndex).isActive = true;
-			}
 		}
 
-		if (currObjIndex == 999) {
+		if (currObjIndex == Consts.NO_OBJECT) {
 			return;
 		}
 
@@ -134,7 +137,7 @@ public class Player extends Entity{
 			case "yellow_key":
 			case "purple_key":
 				if (gp.keyHandler.spacePressed && gp.ui.hb.size != 5) {
-					gp.obj.set(currObjIndex, null);
+					gp.obj.remove(currObjIndex);
 					for (int i = 0; i < gp.ui.hb.capacity; i++) {
 						if (gp.ui.hb.inventory[i] == null) {
 							gp.ui.hb.inventory[i] = new ObjectKey(gp, objName);
@@ -147,7 +150,7 @@ public class Player extends Entity{
 				break;
 		}
 
-		System.out.println(lastObjIndex + " " + currObjIndex);
+//		System.out.println(lastObjIndex + " " + currObjIndex);
 
 	}
 

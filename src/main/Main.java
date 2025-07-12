@@ -7,7 +7,7 @@ public class Main {
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
-		window.setTitle("The Escapists - Thunderbolt");
+		window.setTitle("Prisoners' life");
 		window.setUndecorated(false);
 
 		GamePanel gamePanel = new GamePanel();

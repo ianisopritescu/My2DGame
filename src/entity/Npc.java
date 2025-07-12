@@ -78,29 +78,111 @@ public class Npc extends Entity{
 
 	int actionLockCounter = 0;
 	public void setAction() {
-		actionLockCounter++;
+		if (onPath) {
+			int goalCol = 45;
+			int goalRow = 25;
+			searchPath(goalRow, goalCol);
+		} else {
 
-		if (actionLockCounter == 120) {
+			actionLockCounter++;
 
-			Random randNum = new Random();
-			int i = randNum.nextInt(4) + 1;
+			if (actionLockCounter == 120) {
 
-			switch (i) {
-				case 1: direction = "up"; break;
-				case 2: direction = "left"; break;
-				case 3: direction = "down"; break;
-				case 4: direction = "right"; break;
+				Random randNum = new Random();
+				int i = randNum.nextInt(4) + 1;
+
+				switch (i) {
+					case 1:
+						direction = "up";
+						break;
+					case 2:
+						direction = "left";
+						break;
+					case 3:
+						direction = "down";
+						break;
+					case 4:
+						direction = "right";
+						break;
+				}
+
+				actionLockCounter = 0;
+			}
+		}
+	}
+
+	public void searchPath(int goalRow, int goalCol) {
+		int startCol = (worldX + solidArea.x) / gp.tileSize;
+		int startRow = (worldY + solidArea.y) / gp.tileSize;
+
+		gp.pathFinder.setNodes(startRow, startCol, goalRow, goalCol);
+
+		if (gp.pathFinder.search()) {
+			// Next worldX & worldY
+			int nextX = gp.pathFinder.pathList.getFirst().col * gp.tileSize;
+			int nextY = gp.pathFinder.pathList.getFirst().row * gp.tileSize;
+
+			// Entity's solidArea position
+			int enLeftX = worldX + solidArea.x;
+			int enRightX = worldX + solidArea.x + solidArea.width;
+			int enTopY = worldY + solidArea.y;
+			int enBottomY = worldY + solidArea.y + solidArea.height;
+
+			gp.pathFinder.pathList.removeFirst();
+
+			if ((enTopY > nextY && enLeftX > nextX && enRightX + 20 < nextX + gp.tileSize)) {
+				direction = "up";
+			}
+			else if (enTopY < nextY && enLeftX > nextX && enRightX < nextX + gp.tileSize) {
+				direction = "down";
+			}
+			else if (enTopY > nextY && enBottomY < nextY + gp.tileSize) {
+				if (enLeftX > nextX) {
+					direction = "left";
+				} else if (enLeftX < nextX) {
+					direction = "right";
+				}
+			} else if (enTopY > nextY && enLeftX > nextX) {
+				direction = "up";
+				checkCollision();
+				if (collisionOn) {
+					direction = "left";
+				}
+			} else if (enTopY > nextY && enLeftX < nextX) {
+				direction = "up";
+				checkCollision();
+				if (collisionOn) {
+					direction = "right";
+				}
+			} else if (enTopY < nextY && enLeftX > nextX) {
+				direction = "down";
+				checkCollision();
+				if (collisionOn) {
+					direction = "left";
+				}
+			} else if (enTopY < nextY && enLeftX < nextX) {
+				direction = "down";
+				checkCollision();
+				if (collisionOn) {
+					direction = "right";
+				}
 			}
 
-			actionLockCounter = 0;
+			// if reaches the goal, stop the search
+			int nextCol = gp.pathFinder.pathList.getFirst().col;
+			int nextRow = gp.pathFinder.pathList.getFirst().row;
+			if (nextCol == goalCol && nextRow == goalRow) {
+				onPath = false;
+			}
 		}
 	}
 
 
-	public int objIndexColliding = 999; // interacts with nothing (999)
-	public void update () {
-		setAction();
 
+
+	public int objIndexColliding = 999; // interacts with nothing (999)
+
+	void checkCollision() {
 		collisionOn = false;
 		gp.cChecker.checkTile(this);
 
@@ -109,6 +191,12 @@ public class Npc extends Entity{
 			objIndexColliding = gp.cChecker.checkObject(this, true);
 			interactObject(objIndexColliding, lastColliding);
 		}
+	}
+
+	public void update () {
+		setAction();
+
+		checkCollision();
 
 		move();
 
@@ -116,7 +204,7 @@ public class Npc extends Entity{
 	}
 
 	public void interactObject(int currObjIndex, int lastObjIndex) {
-		if (lastObjIndex != 999 && lastObjIndex != objIndexColliding) {
+		if (lastObjIndex != 999 && lastObjIndex != currObjIndex) {
 			if (gp.obj.get(lastObjIndex).name.contains("door")) {
 				gp.obj.get(lastObjIndex).isActive = true;
 			}

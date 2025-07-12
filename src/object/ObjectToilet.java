@@ -1,6 +1,7 @@
 package object;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,20 +17,31 @@ public class ObjectToilet extends SuperObject{
 	public final int maxSlotRow = 0;
 	public int slotCol = 0;
 	public int slotRow = 0;
+
 	public ObjectToilet(GamePanel gp) {
 		super(gp);
-		collision = true;
-		name = "toilet";
-		try {
-			image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/toilet.png")));
-			image = uTool.scaledImage(image, gp.tileSize, gp.tileSize);
+		this.collision = true;
+		this.name = "toilet";
+ 		prepImage(this.name);
+	}
 
-			invImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/frames/desk_inventory.png")));
-			invImage = uTool.scaledImage(invImage, gp.scale * invImage.getWidth(), invImage.getHeight() * gp.scale);
+	@Override
+	void prepImage(final String name) {
+		try {
+			this.image = ImageIO.read(Objects.requireNonNull(
+					getClass().getResourceAsStream("/objects/toilet.png")));
+			this.image = UtilityTool.scaledImage(image, gp.tileSize, gp.tileSize);
+
+			this.invImage = ImageIO.read(Objects.requireNonNull(
+					getClass().getResourceAsStream("/objects/toilet.png")));
+			this.invImage = UtilityTool.scaledImage(invImage,
+					gp.scale * invImage.getWidth(),
+					invImage.getHeight() * gp.scale);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
+
 	public void drawInventory(Graphics2D g2d) {
 		// General
 		int arcWidth = 10;

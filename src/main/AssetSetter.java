@@ -1,12 +1,10 @@
 package main;
 
-import entity.Entity;
-import entity.Npc;
 import object.*;
 
 public class AssetSetter {
-	GamePanel gp;
-	public AssetSetter(GamePanel gp) {
+	private final GamePanel gp;
+	public AssetSetter(final GamePanel gp) {
 		this.gp = gp;
 	}
 
@@ -40,38 +38,31 @@ public class AssetSetter {
 		createObject(new ObjectToilet(gp), 41, 31);
 		createObject(new ObjectToilet(gp), 46, 31);
 		createObject(new ObjectToilet(gp), 51, 31);
-
-//		createObject(new ObjectKey(gp, "yellow_key"), 32, 22);
-//		createObject(new ObjectKey(gp, "red_key"), 38, 22);
-//		createObject(new ObjectKey(gp, "green_key"), 40, 28);
-
 	}
 
-	void createObject (SuperObject object, int x, int y) {
+	private void createObject(final SuperObject object,
+							  final int x,
+							  final int y) {
 
 		gp.obj.add(object);
 		int lastIndex = gp.obj.size() - 1;
 		gp.obj.get(lastIndex).worldX = x * gp.tileSize;
 		gp.obj.get(lastIndex).worldY = y * gp.tileSize;
-
-//		if (object.getClass() == ObjectDoor.class) {
-//
-//		}
 	}
 
-	public void setEntity() {
-//		createEntity(new Npc(gp), 40, 22);
+//	public void setEntity() {
+//		createEntity(new Npc(gp), 61, 36);
 //		createEntity(new Npc(gp), 50, 22);
 //		createEntity(new Npc(gp), 45, 22);
 //		createEntity(new Npc(gp), 50, 30);
 //		createEntity(new Npc(gp), 40, 30);
 //		createEntity(new Npc(gp), 45, 30);
-	}
-
-	void createEntity(Entity entity, int x, int y) {
-		gp.entities.add(entity);
-		int lastIndex = gp.entities.size() - 1;
-		gp.entities.get(lastIndex).worldX = x * gp.tileSize;
-		gp.entities.get(lastIndex).worldY = y * gp.tileSize;
-	}
+//	}
+//
+//	void createEntity(Entity entity, int x, int y) {
+//		gp.entities.add(entity);
+//		int lastIndex = gp.entities.size() - 1;
+//		gp.entities.get(lastIndex).worldX = x * gp.tileSize;
+//		gp.entities.get(lastIndex).worldY = y * gp.tileSize;
+//	}
 }

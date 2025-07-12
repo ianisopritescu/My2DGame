@@ -1,6 +1,7 @@
 package object;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,21 +23,27 @@ public class ObjectDesk extends SuperObject{
 	public int slotCol = 0;
 	public int slotRow = 0;
 
-	public ObjectDesk(GamePanel gp) {
+	public ObjectDesk(final GamePanel gp) {
 		super(gp);
 		this.gp = gp;
-		collision = true;
-		name = "Desk";
+		this.collision = true;
+		this.name = "Desk";
+		prepImage(this.name);
+	}
+
+	@Override
+	void prepImage(final String name) {
 		try {
 			image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/objects/desk.png")));
-			image = uTool.scaledImage(image, gp.tileSize, gp.tileSize);
+			image = UtilityTool.scaledImage(image, gp.tileSize, gp.tileSize);
 
 			invImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/frames/desk_inventory.png")));
-			invImage = uTool.scaledImage(invImage, gp.scale * invImage.getWidth(), invImage.getHeight() * gp.scale);
+			invImage = UtilityTool.scaledImage(invImage, gp.scale * invImage.getWidth(), invImage.getHeight() * gp.scale);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
+
 	public void drawInventory(Graphics2D g2d) {
 		// General
 		int arcWidth = 10;

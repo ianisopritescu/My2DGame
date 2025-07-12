@@ -7,9 +7,8 @@ import entity.Player;
 import java.awt.*;
 
 public class CollisionChecker {
-
-	GamePanel gp;
-	public CollisionChecker(GamePanel gp) {
+	private final GamePanel gp;
+	public CollisionChecker(final GamePanel gp) {
 		this.gp = gp;
 	}
 
@@ -65,11 +64,8 @@ public class CollisionChecker {
 
 	// check by player direction, which objects will collide with
 	public int checkObject(Entity entity, boolean isPlayer) {
-
 		for (int i = 0; i < gp.obj.size(); i++) {
-
 			if (gp.obj.get(i) != null) {
-
 				// Get entity's solid area position
 				int entityX = entity.worldX + entity.solidArea.x;
 				int entityY = entity.worldY + entity.solidArea.y;
@@ -87,6 +83,7 @@ public class CollisionChecker {
 					case "right": entityRect.x += entity.speed; break;
 				}
 
+				// entity collide with object
 				if (entityRect.intersects(objectRect)) {
 					if (gp.obj.get(i).collision) {
 						entity.collisionOn = true;
@@ -98,7 +95,7 @@ public class CollisionChecker {
 			}
 		}
 
-		return 999;
+		return Consts.NO_OBJECT; // there is no object to interact with
 	}
 
 	public int checkNpc(Player player) {

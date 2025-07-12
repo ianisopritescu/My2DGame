@@ -26,6 +26,7 @@ public class Entity {
 	public Rectangle solidArea;
 	public boolean collisionOn;
 
+	public boolean onPath = true;
 
 	public Entity(GamePanel gp) {
 		this.gp = gp;

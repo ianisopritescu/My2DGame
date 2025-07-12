@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+import algorithms.PathFinder;
 import entity.Entity;
 import entity.Npc;
 import entity.Player;
@@ -22,12 +23,12 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int screenHeight = tileSize * maxScreenRow;
 
 	// WORLD SETTINGS
-	public final int maxWorldCol = 36 * 2 + 1;
-	public final int maxWorldRow = 25 * 2 + 1;
+	public final int maxWorldCol = 36 * 2;
+	public final int maxWorldRow = 25 * 2;
 	public final int worldWidth = maxWorldCol * tileSize;
 	public final int worldHeight = maxWorldRow * tileSize;
 
-	// Game Status
+	// Game States
 	public int gameState;
 	public final int titleState = 0;
 	public final int playState = 1;
@@ -37,17 +38,18 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 
-	Thread gameThread;
+	private Thread gameThread;
 	public KeyHandler keyHandler = new KeyHandler(this);
 	public UI ui = new UI(this);
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public AssetSetter aSetter = new AssetSetter(this);
 	public Player player = new Player(this, keyHandler);
 	public TileManager tileM = new TileManager(this);
+	public PathFinder pathFinder = new PathFinder(this);
 	public ArrayList<SuperObject> obj = new ArrayList<>();
 	public ArrayList<Entity> entities = new ArrayList<>();
 
-	public GamePanel () {
+	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		this.setBackground(Color.BLACK);
 		this.setDoubleBuffered(true);
@@ -56,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void setupGame() {
-		aSetter.setEntity();
+//		aSetter.setEntity();
 		aSetter.setObject();
 		gameState = titleState;
 	}
@@ -98,7 +100,7 @@ public class GamePanel extends JPanel implements Runnable {
 	// Delta Method - Game Loop
 	@Override
 	public void run() {
-		double drawInterval = 1000000000.0 / FPS;
+		double drawInterval = 1_000_000_000.0 / FPS;
 		double delta = 0;
 		double currentTime;
 		double lastTime = System.nanoTime();
@@ -144,19 +146,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 			// Objects
 			for (SuperObject superObject : obj) {
-				if (superObject != null && superObject.isActive) {
-					superObject.draw(g2d, this);
-				}
+				superObject.draw(g2d, this);
 			}
 
 			// Entities
-			for (Entity entity : entities) {
-				if (entity != null) {
-					if (entity instanceof Npc) {
-						((Npc) entity).draw(g2d, this);
-					}
-				}
-			}
+//			for (Entity entity : entities) {
+//				if (entity != null) {
+//					if (entity instanceof Npc) {
+//						((Npc) entity).draw(g2d, this);
+//					}
+//				}
+//			}
 
 			// Players
 			player.draw(g2d);
