@@ -53,6 +53,10 @@ public class Player extends Entity{
 //		int npcIndex = gp.cChecker.checkNpc(this);
 //		interactNpc(npcIndex);
 
+		if (keyH.searchPlayer) {
+			gp.entities.get("Sucre").onPath = true;
+		}
+
 		if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 			if (keyH.upPressed) {
 				direction = "up";

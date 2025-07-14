@@ -10,6 +10,7 @@ public class KeyHandler implements KeyListener {
 
 	GamePanel gp;
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
+	public boolean searchPlayer = false;
 
 	public boolean showDebugText = false;
 	public boolean spacePressed;
@@ -154,6 +155,9 @@ public class KeyHandler implements KeyListener {
 		if (code == KeyEvent.VK_D) {
 			rightPressed = true;
 		}
+		if (code == KeyEvent.VK_Z) {
+			searchPlayer = true;
+		}
 		if (code >= KeyEvent.VK_1 && code <= KeyEvent.VK_5) {
 			if (gp.ui.hb.slotSelected == code - KeyEvent.VK_1 + 1) {
 				gp.ui.hb.slotSelected = 0;
@@ -199,6 +203,9 @@ public class KeyHandler implements KeyListener {
 		}
 		if (code == KeyEvent.VK_D) {
 			rightPressed = false;
+		}
+		if (code == KeyEvent.VK_Z) {
+			searchPlayer = false;
 		}
 	}
 }

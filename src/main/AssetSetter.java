@@ -57,8 +57,8 @@ public class AssetSetter {
 
 	public void setEntities() {
 //		createEntity(new Npc(gp), "Lincoln", 61, 36);
-		createEntity(new Npc(gp), "T-Bag",50, 22);
-		createEntity(new Npc(gp), "Mahone",45, 22);
+//		createEntity(new Npc(gp), "T-Bag",50, 22);
+//		createEntity(new Npc(gp), "Mahone",45, 22);
 		createEntity(new Npc(gp), "Sucre",50, 30);
 		createEntity(new Npc(gp), "Abruzzi", 40, 30);
 	}

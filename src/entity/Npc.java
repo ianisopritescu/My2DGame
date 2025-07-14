@@ -81,8 +81,8 @@ public class Npc extends Entity{
 	int randValReset = 120;
 	public void setAction() {
 		if (onPath) {
-			int goalCol = 45;
-			int goalRow = 25;
+			int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
+			int goalRow = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize;
 			searchPath(goalRow, goalCol);
 		} else {
 			actionLockCounter++;
@@ -120,8 +120,11 @@ public class Npc extends Entity{
 
 		if (gp.pathFinder.search()) {
 			// Next worldX & worldY
-			int nextX = gp.pathFinder.pathList.getFirst().col * gp.tileSize;
-			int nextY = gp.pathFinder.pathList.getFirst().row * gp.tileSize;
+			int nextCol = gp.pathFinder.pathList.getFirst().col;
+			int nextRow = gp.pathFinder.pathList.getFirst().row;
+
+			int nextX = nextCol * gp.tileSize;
+			int nextY = nextRow * gp.tileSize;
 
 			// Entity's solidArea position
 			int enLeftX = worldX + solidArea.x;
@@ -170,11 +173,11 @@ public class Npc extends Entity{
 			}
 
 			// if reaches the goal, stop the search
-			int nextCol = gp.pathFinder.pathList.getFirst().col;
-			int nextRow = gp.pathFinder.pathList.getFirst().row;
 			if (nextCol == goalCol && nextRow == goalRow) {
 				onPath = false;
 			}
+		} else {
+			System.out.println("Can't get there!");
 		}
 	}
 
