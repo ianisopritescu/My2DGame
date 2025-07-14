@@ -6,6 +6,7 @@ import main.UtilityTool;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class TileManager {
@@ -23,7 +24,7 @@ public class TileManager {
 		this.mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
 
 		getTileImage();
-		loadMap("resources/maps/map2.txt");
+		loadMap("resources/maps/map2.csv");
 	}
 
 	private void getTileImage() {
@@ -66,7 +67,7 @@ public class TileManager {
 
 			for (int row = 0; row < gp.maxWorldRow; row ++) {
 				String line = br.readLine();
-				String[] numbers = line.split(" ");
+				String[] numbers = line.split("\\s+");
 				for (int col = 0; col < gp.maxWorldCol; col++) {
 					mapTileNum[row][col] = Integer.parseInt(numbers[col]);
 				}

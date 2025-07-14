@@ -20,12 +20,15 @@ public class AssetSetter {
 		createObject(new ObjectDoor(gp, "door"), 56, 19);
 		createObject(new ObjectDoor(gp, "door"), 59, 19);
 		createObject(new ObjectDoor(gp, "door"), 56, 23);
+		createObject(new ObjectDoor(gp, "door"), 24, 36);
+		createObject(new ObjectDoor(gp, "door"), 26, 39);
 
 		createObject(new ObjectDoor(gp, "purple_door"), 37, 17);
 		createObject(new ObjectDoor(gp, "purple_door"), 37, 16);
 
 		createObject(new ObjectDoor(gp, "yellow_door"), 49, 18);
 		createObject(new ObjectDoor(gp, "yellow_door"), 50, 34);
+		createObject(new ObjectDoor(gp, "yellow_door"), 19, 34);
 
 		createObject(new ObjectDesk(gp), 41, 22);
 		createObject(new ObjectDesk(gp), 46, 22);
