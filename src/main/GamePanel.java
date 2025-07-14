@@ -3,6 +3,7 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,19 +152,19 @@ public class GamePanel extends JPanel implements Runnable {
 			});
 
 			// Entities
-//			for (Entity entity : entities) {
-//				if (entity != null) {
-//					if (entity instanceof Npc) {
-//						((Npc) entity).draw(g2d, this);
-//					}
-//				}
-//			}
-			entities.values().forEach(entity -> {
-				entity.draw(g2d);
-			});
+//			entities.values().forEach(entity -> {
+//				entity.draw(g2d);
+//			});
+//
+//			// Players
+//			player.draw(g2d);
 
-			// Players
-			player.draw(g2d);
+			ArrayList<Map.Entry<String, Entity>> entries = new ArrayList<>(entities.entrySet());
+			entries.add(Map.entry("Scofield", player));
+			entries.sort(Comparator.comparing(entry -> entry.getValue().worldY));
+			entries.forEach(entry -> {
+				entry.getValue().draw(g2d);
+			});
 
 			// UI
 			ui.draw(g2d);
