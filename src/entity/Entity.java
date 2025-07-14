@@ -4,7 +4,7 @@ import main.GamePanel;
 import main.UtilityTool;
 
 import javax.imageio.ImageIO;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
@@ -26,18 +26,19 @@ public class Entity {
 	public Rectangle solidArea;
 	public boolean collisionOn;
 
-	public boolean onPath = true;
+	public boolean onPath = false;
+
+	public Point objPointColliding = null;
 
 	public Entity(GamePanel gp) {
 		this.gp = gp;
 	}
 
 	public BufferedImage setupEntityImage (String imagePath) {
-		UtilityTool uTool = new UtilityTool();
 		BufferedImage image;
 		try {
 			image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/entities/" + imagePath +".png")));
-			image = uTool.scaledImage(image, gp.tileSize, gp.tileSize);
+			image = UtilityTool.scaledImage(image, gp.tileSize, gp.tileSize);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -68,6 +69,7 @@ public class Entity {
 		}
 	}
 
+	public void draw(Graphics2D g2d) {}
 	public void setAction() {}
 	public void update() {}
 }

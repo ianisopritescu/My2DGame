@@ -13,8 +13,6 @@ public class Player extends Entity{
 	public final int screenX;
 	public final int screenY;
 
-	public Point objPointColliding = null;
-
 	public Player (GamePanel gp, KeyHandler keyH) {
 		super(gp);
 

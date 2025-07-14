@@ -1,6 +1,7 @@
 package entity;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -37,9 +38,8 @@ public class Npc extends Entity{
 		right2 = setupEntityImage("right2");
 	}
 
-	public void draw(Graphics2D g2d, GamePanel gp) {
-		if (uTool.isObjectVisibleInScreen(worldX, worldY, gp)) {
-
+	public void draw(Graphics2D g2d) {
+		if (UtilityTool.isObjectVisibleInScreen(worldX, worldY, gp)) {
 			int screenX = worldX - gp.player.worldX + gp.player.screenX;
 			int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
@@ -77,19 +77,19 @@ public class Npc extends Entity{
 
 
 	int actionLockCounter = 0;
+	int randValReset = 120;
 	public void setAction() {
 		if (onPath) {
 			int goalCol = 45;
 			int goalRow = 25;
 			searchPath(goalRow, goalCol);
 		} else {
-
 			actionLockCounter++;
-
-			if (actionLockCounter == 120) {
+			if (actionLockCounter == randValReset) {
 
 				Random randNum = new Random();
 				int i = randNum.nextInt(4) + 1;
+				randValReset = randNum.nextInt(100) + 50;
 
 				switch (i) {
 					case 1:
@@ -177,44 +177,23 @@ public class Npc extends Entity{
 		}
 	}
 
-
-
-
-	public int objIndexColliding = 999; // interacts with nothing (999)
-
 	void checkCollision() {
+		// check tile collision
 		collisionOn = false;
 		gp.cChecker.checkTile(this);
 
-//		if (!collisionOn) {
-//			int lastColliding = objPointColliding;
-//			objPointColliding = gp.cChecker.checkObject(this, true);
-//			interactObject(objPointColliding, lastColliding);
-//		}
+		// Npc interacted with a tile
+		if (collisionOn)
+			return;
+
+		// check object collision
+		gp.cChecker.checkObject(this, true);
 	}
 
-	public void update () {
+	public void update() {
 		setAction();
-
 		checkCollision();
-
 		move();
-
 		changeSprite();
 	}
-
-//	public void interactObject(int currObjIndex, int lastObjIndex) {
-//		if (lastObjIndex != 999 && lastObjIndex != currObjIndex) {
-//			if (gp.obj.get(lastObjIndex).name.contains("door")) {
-//				gp.obj.get(lastObjIndex).isActive = true;
-//			}
-//		}
-//		if (currObjIndex == 999) {
-//			return;
-//		}
-//		if (gp.obj.get(currObjIndex).name.equals("door")) {
-//			gp.obj.get(currObjIndex).isActive = false;
-////			collisionOn = false;
-//		}
-//	}
 }

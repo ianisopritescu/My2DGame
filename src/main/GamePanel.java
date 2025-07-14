@@ -48,8 +48,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public Player player = new Player(this, keyHandler);
 	public TileManager tileM = new TileManager(this);
 	public PathFinder pathFinder = new PathFinder(this);
-	public Map<Point, SuperObject> objMap = new HashMap<Point, SuperObject>();
-	public ArrayList<Entity> entities = new ArrayList<>();
+	public Map<Point, SuperObject> objMap = new HashMap<>();
+//	public ArrayList<Entity> entities = new ArrayList<>();
+	public Map<String, Entity> entities = new HashMap<>();
 
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -60,7 +61,8 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void setupGame() {
-		aSetter.setObject();
+		aSetter.setEntities();
+		aSetter.setObjects();
 		gameState = titleState;
 	}
 
@@ -69,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
 		gameThread.start();
 	}
 
-	int FPS = 60;
+	private final int FPS = 60;
 //  // First Method - GameLoop
 //	@Override
 //	public void run() {
@@ -122,9 +124,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void update() {
 		if (gameState == playState) {
-			for (Entity e : entities) {
-				e.update();
-			}
+			entities.values().forEach(Entity::update);
 			player.update();
 		}
 	}
@@ -158,6 +158,9 @@ public class GamePanel extends JPanel implements Runnable {
 //					}
 //				}
 //			}
+			entities.values().forEach(entity -> {
+				entity.draw(g2d);
+			});
 
 			// Players
 			player.draw(g2d);
