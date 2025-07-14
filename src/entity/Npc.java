@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.UtilityTool;
+import object.ObjectKey;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -187,7 +188,32 @@ public class Npc extends Entity{
 			return;
 
 		// check object collision
-		gp.cChecker.checkObject(this, true);
+		Point lastColliding = objPointColliding;
+		objPointColliding = gp.cChecker.checkObject(this, true);
+		interactObject(objPointColliding, lastColliding);
+	}
+
+	void interactObject(Point currObjPoint, Point lastObjPoint) {
+		// check if last object was a door, and now is not colliding with it, to close it
+		if (lastObjPoint != null &&
+				!lastObjPoint.equals(currObjPoint) &&
+				gp.objMap.get(lastObjPoint).name.contains("door")) {
+			gp.objMap.get(lastObjPoint).isActive = true;
+		}
+
+		if (currObjPoint == null) {
+			return;
+		}
+
+		String objName = gp.objMap.get(currObjPoint).name;
+		switch (objName) {
+			case "door":
+				gp.objMap.get(currObjPoint).isActive = false;
+				collisionOn = false;
+				break;
+			case "Desk":
+				break;
+		}
 	}
 
 	public void update() {

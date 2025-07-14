@@ -69,6 +69,7 @@ public class Entity {
 		}
 	}
 
+	void interactObject(Point currObjPoint, Point lastObjPoint) {}
 	public void draw(Graphics2D g2d) {}
 	public void setAction() {}
 	public void update() {}
