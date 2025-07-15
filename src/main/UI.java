@@ -111,6 +111,7 @@ public class UI {
 			g2d.drawString(">", x - 35, y);
 		}
 	}
+
 	public void drawHotbar() {
 		int frameX = gp.screenWidth - hb.image.getWidth() - 6 * gp.scale;
 		int	frameY = (gp.screenHeight - hb.image.getHeight()) / 2;

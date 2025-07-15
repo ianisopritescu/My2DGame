@@ -197,6 +197,10 @@ public class Npc extends Entity{
 	}
 
 	void interactObject(Point currObjPoint, Point lastObjPoint) {
+		if (!gp.objMap.containsKey(lastObjPoint)) {
+			return;
+		}
+
 		// check if last object was a door, and now is not colliding with it, to close it
 		if (lastObjPoint != null &&
 				!lastObjPoint.equals(currObjPoint) &&
@@ -204,7 +208,7 @@ public class Npc extends Entity{
 			gp.objMap.get(lastObjPoint).isActive = true;
 		}
 
-		if (currObjPoint == null) {
+		if (currObjPoint == null || !gp.objMap.containsKey(lastObjPoint)) {
 			return;
 		}
 

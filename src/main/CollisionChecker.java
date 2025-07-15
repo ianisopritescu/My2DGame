@@ -99,17 +99,20 @@ public class CollisionChecker {
 				break;
 		}
 
-		boolean collision1 = gp.objMap.containsKey(point1) &&  gp.objMap.get(point1).collision;
-		boolean collision2 = gp.objMap.containsKey(point2) &&  gp.objMap.get(point2).collision;
+		// if there exist an object that entity is colliding with
+		// return the object, moreover if object has collision
+		// turn on the entity's collision flag
+		if (gp.objMap.containsKey(point1)) {
+			if (gp.objMap.get(point1).collision)
+				entity.collisionOn = true;
+			return point1;
+		}
 
-		if (collision1 || collision2) {
-			entity.collisionOn = true;
-			if (isPlayer) {
-				if (gp.objMap.containsKey(point1))
-					return point1;
-				else
-					return point2;
-			}
+		// same if there object 2 exists
+		if (gp.objMap.containsKey(point2)) {
+			if (gp.objMap.get(point2).collision)
+				entity.collisionOn = true;
+			return point2;
 		}
 
 		// there is no object to interact with

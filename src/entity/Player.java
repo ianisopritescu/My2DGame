@@ -50,8 +50,7 @@ public class Player extends Entity{
 	}
 
 	public void update() {
-//		int npcIndex = gp.cChecker.checkNpc(this);
-//		interactNpc(npcIndex);
+		Point lastColliding = objPointColliding;
 
 		if (keyH.searchPlayer) {
 			gp.entities.get("Sucre").onPath = true;
@@ -80,16 +79,21 @@ public class Player extends Entity{
 				return;
 
 			// Check object collision
-			Point lastColliding = objPointColliding;
 			objPointColliding = gp.cChecker.checkObject(this, true);
 			interactObject(objPointColliding, lastColliding);
 
 			move();
 			changeSprite();
 		}
+
+		interactObject(objPointColliding, lastColliding);
 	}
 
 	void interactObject(Point currObjPoint, Point lastObjPoint) {
+		if (!gp.objMap.containsKey(lastObjPoint)) {
+			return;
+		}
+
 		// last object is a door, and now player doesn't collide with the same door
 		if (lastObjPoint != null &&
 				!lastObjPoint.equals(currObjPoint) &&
@@ -97,7 +101,7 @@ public class Player extends Entity{
 				gp.objMap.get(lastObjPoint).isActive = true;
 		}
 
-		if (currObjPoint == null) {
+		if (currObjPoint == null || !gp.objMap.containsKey(lastObjPoint)) {
 			return;
 		}
 

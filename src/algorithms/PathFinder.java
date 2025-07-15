@@ -68,7 +68,7 @@ public class PathFinder {
 		}
 
 		gp.objMap.forEach((key, value) -> {
-			if (!value.name.equals("door")) {
+			if (!value.name.equals("door") && !value.name.contains("key")) {
 				node[key.y][key.x].solid = true;
 			}
 		});
