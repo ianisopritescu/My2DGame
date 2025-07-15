@@ -177,7 +177,7 @@ public class KeyHandler implements KeyListener {
 			gp.gameState = gp.pauseState;
 		}
 		if (code == KeyEvent.VK_R) {
-			gp.tileM.loadMap("resources/maps/map2.csv");
+			gp.tileM.loadMap("resources/maps/map2.txt");
 		}
 		if (code == KeyEvent.VK_Q) {
 			if (gp.ui.hb.slotSelected != 0 && gp.ui.hb.inventory[gp.ui.hb.slotSelected - 1] != null) {

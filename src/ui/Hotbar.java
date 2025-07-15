@@ -36,9 +36,8 @@ public class Hotbar {
 		inventory[0] = new ObjectKey(gp,"red_key");
 		inventory[1] = new ObjectKey(gp,"yellow_key");
 		inventory[2] = new ObjectKey(gp,"green_key");
-//		inventory[3] = new ObjectKey(gp,"purple_key");
-		inventory[3] = new ObjectDoor(gp, "door");
-		size += 4;
+		inventory[3] = new ObjectKey(gp,"purple_key");
+		this.size += 4;
 	}
 
 	public void dropItem(int itemNum) {
