@@ -42,14 +42,20 @@ public class Hotbar {
 
 	public void dropItem(int itemNum) {
 		SuperObject item = inventory[itemNum];
-		inventory[itemNum] = null;
 
 		int x = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
 		int y = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize;
+
+		if (gp.objMap.containsKey(new Point(x, y))) {
+			System.out.println("That object cant be dropped there!");
+			return;
+		}
 
 		item.worldX = x * gp.tileSize;
 		item.worldY = y * gp.tileSize;
 
 		gp.objMap.put(new Point(x, y), item);
+
+		inventory[itemNum] = null;
 	}
 }
