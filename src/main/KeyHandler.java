@@ -78,21 +78,24 @@ public class KeyHandler implements KeyListener {
 		if (code == KeyEvent.VK_E || code == KeyEvent.VK_ESCAPE) {
 			gp.gameState = gp.playState;
 		}
+
+		ObjectDesk desk = (ObjectDesk)gp.objMap.get(gp.player.objPointColliding);
+
 		if (code == KeyEvent.VK_W) {
-			if (((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotRow != 0)
-				((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotRow --;
+			if (desk.slotRow != 0)
+				desk.slotRow --;
 		}
 		if (code == KeyEvent.VK_S) {
-			if (((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotRow != ((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).maxSlotRow)
-				((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotRow ++;
+			if (desk.slotRow != desk.maxSlotRow)
+				desk.slotRow ++;
 		}
 		if (code == KeyEvent.VK_D) {
-			if (((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotCol != ((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).maxSlotCol)
-				((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotCol ++;
+			if (desk.slotCol != desk.maxSlotCol)
+				desk.slotCol ++;
 		}
 		if (code == KeyEvent.VK_A) {
-			if (((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotCol != 0)
-				((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).slotCol --;
+			if (desk.slotCol != 0)
+				desk.slotCol --;
 		}
 		if (code >= KeyEvent.VK_1 && code <= KeyEvent.VK_5) {
 			if (gp.ui.hb.slotSelected == code - KeyEvent.VK_1 + 1) {
@@ -102,7 +105,7 @@ public class KeyHandler implements KeyListener {
 			}
 		}
 		if (code == KeyEvent.VK_ENTER) {
-			((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).getItems();
+			desk.getItems();
 		}
 	}
 	void toiletState (int code) {

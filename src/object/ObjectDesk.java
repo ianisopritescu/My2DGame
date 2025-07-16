@@ -46,33 +46,30 @@ public class ObjectDesk extends SuperObject{
 
 	public void drawInventory(Graphics2D g2d) {
 		// General
-		int arcWidth = 10;
-		int arcHeight = 10;
+		final int arcWidth = 10;
+		final int arcHeight = 10;
 
 		// Main Frame
-		int frameX = (gp.screenWidth - invImage.getWidth()) / 2 ;
-		int frameY = (gp.screenHeight - invImage.getHeight() ) / 2;
-		int frameWidth = invImage.getWidth();
-		int frameHeight = invImage.getHeight();
+		final int frameX = (gp.screenWidth - invImage.getWidth()) / 2 ;
+		final int frameY = (gp.screenHeight - invImage.getHeight() ) / 2;
+		final int frameWidth = invImage.getWidth();
+		final int frameHeight = invImage.getHeight();
 
 		g2d.drawImage(invImage, frameX, frameY, frameWidth, frameHeight, null);
 
 		// Slots
 		final int slotStartX = frameX + 20;
 		final int slotStartY = frameY + 50;
-		int slotX = slotStartX;
-		int slotY = slotStartY;
 
 		// Draw Items
-		for (int i = 0; i < capacity; i++) {
-			if (inventory[i] != null) {
-				g2d.drawImage(inventory[i].image, slotX, slotY, null);
-				System.out.println(i);
-			}
-			slotX += gp.tileSize + 4 * gp.scale;
-			if (i % (maxSlotCol) == 0 && i != 0) {
+		for (int slotX = slotStartX, slotY = slotStartY, i = 0; i < capacity; i++, slotX += gp.tileSize + 4 * gp.scale) {
+			if (i % (maxSlotCol + 1) == 0 && i > 0) {
 				slotX = slotStartX;
 				slotY += gp.tileSize + 4 * gp.scale;
+			}
+
+			if (inventory[i] != null) {
+				g2d.drawImage(inventory[i].image, slotX, slotY, null);
 			}
 		}
 
@@ -88,9 +85,8 @@ public class ObjectDesk extends SuperObject{
 		g2d.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, arcWidth, arcHeight);
 	}
 
-	// !!!! Have to be fixed !!!!
 	public void getItems() {
-		int invIndex = slotCol + (slotRow) * 5 + 1;
+		int invIndex = slotCol + slotRow * 5;
 		if (gp.ui.hb.slotSelected > 0) {
 			if (gp.ui.hb.inventory[gp.ui.hb.slotSelected - 1] == null && inventory[invIndex] != null) {
 				for (int i = 0; i < gp.ui.hb.capacity; i++) {
