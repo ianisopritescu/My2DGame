@@ -3,15 +3,20 @@ package entity;
 import main.KeyHandler;
 import main.GamePanel;
 import object.ObjectKey;
+import observer.Observer;
+import observer.Subject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-public class Player extends Entity{
+public class Player extends Entity implements Subject {
 	KeyHandler keyH;
 
 	public final int screenX;
 	public final int screenY;
+
+	private ArrayList<Observer> observers = new ArrayList<>();
 
 	public Player (GamePanel gp, KeyHandler keyH) {
 		super(gp);
@@ -53,7 +58,11 @@ public class Player extends Entity{
 		Point lastColliding = objPointColliding;
 
 		if (keyH.searchPlayer) {
-			gp.entities.get("Sucre").onPath = true;
+			gp.entities.forEach((name, entity) -> {
+				if (name.startsWith("Pr."))
+					addObserver((Observer) entity);
+			});
+			notifyObservers();
 		}
 
 		if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
@@ -182,5 +191,22 @@ public class Player extends Entity{
 
 		g2d.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
+	}
+
+	@Override
+	public void addObserver(Observer o) {
+		observers.add(o);
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer o : observers) {
+			o.updateObserver();
+		}
 	}
 }

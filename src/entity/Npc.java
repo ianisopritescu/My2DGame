@@ -3,12 +3,13 @@ package entity;
 import main.GamePanel;
 import main.UtilityTool;
 import object.ObjectKey;
+import observer.Observer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class Npc extends Entity{
+public class Npc extends Entity implements Observer {
 
 	public Npc(GamePanel gp) {
 		super(gp);
@@ -81,40 +82,41 @@ public class Npc extends Entity{
 	int randValReset = 120;
 	public void setAction() {
 		if (onPath) {
-			int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
-			int goalRow = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize;
+			int goalCol = gp.player.getWorldCol();
+			int goalRow = gp.player.getWorldRow();
 			searchPath(goalRow, goalCol);
-		} else {
-			actionLockCounter++;
-			if (actionLockCounter == randValReset) {
-
-				Random randNum = new Random();
-				int i = randNum.nextInt(4) + 1;
-				randValReset = randNum.nextInt(100) + 50;
-
-				switch (i) {
-					case 1:
-						direction = "up";
-						break;
-					case 2:
-						direction = "left";
-						break;
-					case 3:
-						direction = "down";
-						break;
-					case 4:
-						direction = "right";
-						break;
-				}
-
-				actionLockCounter = 0;
-			}
 		}
+//		else {
+//			actionLockCounter++;
+//			if (actionLockCounter == randValReset) {
+//
+//				Random randNum = new Random();
+//				int i = randNum.nextInt(4) + 1;
+//				randValReset = randNum.nextInt(100) + 50;
+//
+//				switch (i) {
+//					case 1:
+//						direction = "up";
+//						break;
+//					case 2:
+//						direction = "left";
+//						break;
+//					case 3:
+//						direction = "down";
+//						break;
+//					case 4:
+//						direction = "right";
+//						break;
+//				}
+//
+//				actionLockCounter = 0;
+//			}
+//		}
 	}
 
 	public void searchPath(int goalRow, int goalCol) {
-		int startCol = (worldX + solidArea.x) / gp.tileSize;
-		int startRow = (worldY + solidArea.y) / gp.tileSize;
+		int startCol = getWorldCol();
+		int startRow = getWorldRow();
 
 		gp.pathFinder.setNodes(startRow, startCol, goalRow, goalCol);
 
@@ -228,5 +230,10 @@ public class Npc extends Entity{
 		checkCollision();
 		move();
 		changeSprite();
+	}
+
+	@Override
+	public void updateObserver() {
+		this.onPath = true;
 	}
 }

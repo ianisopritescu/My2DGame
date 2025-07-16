@@ -17,11 +17,11 @@ import tiles.TileManager;
 public class GamePanel extends JPanel implements Runnable {
 	// SCREEN SETTINGS
 	public final int originalTileSize = 16; // 16 x 16 pixels
-	public final int scale = 1;
+	public final int scale = 3;
 	public final int tileSize = originalTileSize * scale;
 
-	public final int maxScreenCol = 48;
-	public final int maxScreenRow = 35;
+	public final int maxScreenCol = 38;
+	public final int maxScreenRow = 20;
 	public final int screenWidth = tileSize * maxScreenCol;
 	public final int screenHeight = tileSize * maxScreenRow;
 
@@ -50,7 +50,6 @@ public class GamePanel extends JPanel implements Runnable {
 	public TileManager tileM = new TileManager(this);
 	public PathFinder pathFinder = new PathFinder(this);
 	public Map<Point, SuperObject> objMap = new HashMap<>();
-//	public ArrayList<Entity> entities = new ArrayList<>();
 	public Map<String, Entity> entities = new HashMap<>();
 
 	public GamePanel() {
@@ -185,9 +184,9 @@ public class GamePanel extends JPanel implements Runnable {
 			y += 20;
 			g2d.drawString("WorldY - " + player.worldY, x, y);
 			y += 20;
-			g2d.drawString("Col - " + (player.worldX + player.solidArea.x) / tileSize, x, y);
+			g2d.drawString("Col - " + player.getWorldCol(), x, y);
 			y += 20;
-			g2d.drawString("Row - " + (player.worldY + player.solidArea.y) / tileSize, x, y);
+			g2d.drawString("Row - " + player.getWorldRow(), x, y);
 			y += 20;
 
 			// Draw Time

@@ -94,11 +94,11 @@ public class AssetSetter {
 	}
 
 	public void setEntities() {
-//		createEntity(new Npc(gp), "Lincoln", 61, 36);
-//		createEntity(new Npc(gp), "T-Bag",50, 22);
-//		createEntity(new Npc(gp), "Mahone",45, 22);
-//		createEntity(new Npc(gp), "Sucre",50, 30);
-//		createEntity(new Npc(gp), "Abruzzi", 40, 30);
+		createEntity(new Npc(gp), "Pr. Lincoln", 40, 22);
+		createEntity(new Npc(gp), "Pr. T-Bag",50, 22);
+		createEntity(new Npc(gp), "Pr. Mahone",45, 22);
+		createEntity(new Npc(gp), "Pr. Sucre",50, 30);
+		createEntity(new Npc(gp), "Pr. Abruzzi", 40, 30);
 	}
 
 	void createEntity(Entity entity, String name, int x, int y) {

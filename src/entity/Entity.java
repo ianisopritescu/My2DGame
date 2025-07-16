@@ -12,8 +12,8 @@ import java.util.Objects;
 public class Entity {
 	final private int speedDefaultValue = 4;
 	GamePanel gp;
-	UtilityTool uTool = new UtilityTool();
 
+	private int worldCol, worldRow;
 	public int worldX, worldY;
 	public int speed = speedDefaultValue;
 
@@ -67,6 +67,14 @@ public class Entity {
 				spriteNum = 1;
 			spriteCounter = 0;
 		}
+	}
+
+	public int getWorldCol() {
+		return (worldX + solidArea.x) / gp.tileSize;
+	}
+
+	public int getWorldRow() {
+		return (worldY + solidArea.y) / gp.tileSize;
 	}
 
 	void interactObject(Point currObjPoint, Point lastObjPoint) {}
