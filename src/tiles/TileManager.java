@@ -11,7 +11,6 @@ import java.util.Objects;
 
 public class TileManager {
 	private final GamePanel gp;
-	private final UtilityTool uTool;
 	public Tile[] tile;
 	public int[][] mapTileNum;
 
@@ -19,7 +18,6 @@ public class TileManager {
 
 	public TileManager(GamePanel gp){
 		this.gp = gp;
-		this.uTool = new UtilityTool();
 		this.tile = new Tile[20];
 		this.mapTileNum = new int[gp.maxWorldRow][gp.maxWorldCol];
 

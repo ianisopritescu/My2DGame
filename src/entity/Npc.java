@@ -86,32 +86,32 @@ public class Npc extends Entity implements Observer {
 			int goalRow = gp.player.getWorldRow();
 			searchPath(goalRow, goalCol);
 		}
-//		else {
-//			actionLockCounter++;
-//			if (actionLockCounter == randValReset) {
-//
-//				Random randNum = new Random();
-//				int i = randNum.nextInt(4) + 1;
-//				randValReset = randNum.nextInt(100) + 50;
-//
-//				switch (i) {
-//					case 1:
-//						direction = "up";
-//						break;
-//					case 2:
-//						direction = "left";
-//						break;
-//					case 3:
-//						direction = "down";
-//						break;
-//					case 4:
-//						direction = "right";
-//						break;
-//				}
-//
-//				actionLockCounter = 0;
-//			}
-//		}
+		else {
+			actionLockCounter++;
+			if (actionLockCounter == randValReset) {
+
+				Random randNum = new Random();
+				int i = randNum.nextInt(4) + 1;
+				randValReset = randNum.nextInt(100) + 50;
+
+				switch (i) {
+					case 1:
+						direction = "up";
+						break;
+					case 2:
+						direction = "left";
+						break;
+					case 3:
+						direction = "down";
+						break;
+					case 4:
+						direction = "right";
+						break;
+				}
+
+				actionLockCounter = 0;
+			}
+		}
 	}
 
 	public void searchPath(int goalRow, int goalCol) {

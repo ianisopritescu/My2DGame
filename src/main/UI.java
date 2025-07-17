@@ -11,7 +11,7 @@ import java.io.IOException;
 public class UI {
 	GamePanel gp;
 	Graphics2D g2d;
-	int commandNum = 0;
+	public int commandNum = 0;
 	public Hotbar hb;
 
 	public UI(GamePanel gp) {
@@ -53,7 +53,7 @@ public class UI {
 	}
 	public void drawTitleScreen() {
 		// Background Color
-		Color cPink = new Color(111, 7, 104);
+		Color cPink = new Color(205, 127, 50);
 		GradientPaint gradient1 = new GradientPaint(0, 0, cPink, (float) gp.screenWidth, (float) gp.screenHeight, Color.black);
 		g2d.setPaint(gradient1);
 		g2d.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -68,7 +68,7 @@ public class UI {
 		sSFont = sSFont.deriveFont(Font.BOLD, 70);
 		g2d.setFont(sSFont);
 
-		String text = "The Escapists 3";
+		String text = "Prisoners";
 
 		FontMetrics fm = g2d.getFontMetrics(sSFont);
 		int x = (gp.screenWidth - fm.stringWidth(text)) / 2;

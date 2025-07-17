@@ -1,6 +1,6 @@
 package entity;
 
-import main.KeyHandler;
+import io_handler.KeyHandler;
 import main.GamePanel;
 import object.ObjectKey;
 import observer.Observer;
@@ -18,9 +18,9 @@ public class Player extends Entity implements Subject {
 
 	private ArrayList<Observer> observers = new ArrayList<>();
 
-	public Player (GamePanel gp, KeyHandler keyH) {
+	public Player (GamePanel gp, KeyHandler keyH, String name) {
 		super(gp);
-
+		this.name = name;
 		this.keyH = keyH;
 
 		screenX = gp.screenWidth / 2 - gp.tileSize / 2;
@@ -115,6 +115,7 @@ public class Player extends Entity implements Subject {
 		}
 
 		String objName = gp.objMap.get(currObjPoint).name;
+		System.out.println(gp.objMap.get(currObjPoint).worldX + " " + gp.objMap.get(currObjPoint).worldY);
 		switch (objName) {
 			case "yellow_door":
 			case "red_door":

@@ -1,5 +1,6 @@
-package main;
+package io_handler;
 
+import main.GamePanel;
 import object.ObjectDesk;
 import object.ObjectToilet;
 

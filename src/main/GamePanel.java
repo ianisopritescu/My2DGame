@@ -9,10 +9,12 @@ import java.util.Map;
 
 import algorithms.PathFinder;
 import entity.Entity;
-import entity.Npc;
 import entity.Player;
+import io_handler.KeyHandler;
+import io_handler.MouseHandler;
 import object.SuperObject;
 import tiles.TileManager;
+import ui.TextBox;
 
 public class GamePanel extends JPanel implements Runnable {
 	// SCREEN SETTINGS
@@ -42,11 +44,12 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 	private Thread gameThread;
+	public MouseHandler mouseHandler = new MouseHandler(this);
 	public KeyHandler keyHandler = new KeyHandler(this);
 	public UI ui = new UI(this);
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public AssetSetter aSetter = new AssetSetter(this);
-	public Player player = new Player(this, keyHandler);
+	public Player player = new Player(this, keyHandler, "Pr. Michael Scofield");
 	public TileManager tileM = new TileManager(this);
 	public PathFinder pathFinder = new PathFinder(this);
 	public Map<Point, SuperObject> objMap = new HashMap<>();
@@ -57,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setBackground(Color.BLACK);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyHandler);
+		this.addMouseMotionListener(mouseHandler);
 		this.setFocusable(true);
 	}
 
@@ -145,7 +149,7 @@ public class GamePanel extends JPanel implements Runnable {
 			// Tiles
 			tileM.draw(g2d);
 
-			// Objects - lambda Implementation
+			// Objects
 			objMap.values().forEach(obj -> {
 				obj.draw(g2d);
 			});
@@ -165,9 +169,17 @@ public class GamePanel extends JPanel implements Runnable {
 				entry.getValue().draw(g2d);
 			});
 
+			// Name tags
+			if (mouseHandler.hovering) {
+				TextBox.draw(g2d,
+						mouseHandler.entityHovered.name,
+						mouseHandler.xWindow + 20,
+						mouseHandler.yWindow
+				);
+			}
+
 			// UI
 			ui.draw(g2d);
-
 		}
 
 

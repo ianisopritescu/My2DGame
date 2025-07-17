@@ -104,6 +104,7 @@ public class AssetSetter {
 	void createEntity(Entity entity, String name, int x, int y) {
 		entity.worldX = x * gp.tileSize;
 		entity.worldY = y * gp.tileSize;
+		entity.name = name;
 		gp.entities.put(name, entity);
 	}
 }
