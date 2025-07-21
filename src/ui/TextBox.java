@@ -1,10 +1,14 @@
 package ui;
 
+import constants.General;
+
 import java.awt.*;
 
 public class TextBox {
     public static void draw(final Graphics2D g2d, final String text, final int x, final int y) {
-        Font font = new Font("Arial", Font.PLAIN, 23);
+//        Font font = new Font("Arial", Font.PLAIN, 23);
+        Font font = General.mainFont().deriveFont(Font.PLAIN, 23);
+
         g2d.setFont(font);
 
         FontMetrics fm = g2d.getFontMetrics();

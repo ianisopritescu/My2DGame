@@ -1,5 +1,6 @@
 package io_handler;
 
+import constants.GameState;
 import main.GamePanel;
 import object.ObjectDesk;
 import object.ObjectToilet;
@@ -33,51 +34,56 @@ public class KeyHandler implements KeyListener {
 			showDebugText = !showDebugText;
 		}
 
-		if (gp.gameState == gp.titleState) {
+		if (gp.gameState == GameState.TITLE_STATE) {
 			titleState(code);
-		} else if (gp.gameState == gp.playState) {
+		} else if (gp.gameState == GameState.PLAY_STATE) {
 			playState(code);
-		} else if (gp.gameState == gp.pauseState) {
+		} else if (gp.gameState == GameState.PAUSE_STATE) {
 			pauseState(code);
-		} else if (gp.gameState == gp.deskState) {
+		} else if (gp.gameState == GameState.DESK_STATE) {
 			deskState(code);
-		} else if (gp.gameState == gp.toiletState) {
+		} else if (gp.gameState == GameState.TOILET_STATE) {
 			toiletState(code);
 		}
 	}
 
 	void titleState(int code) {
-		if (code == KeyEvent.VK_W) {
+		if (code == KeyEvent.VK_UP) {
 			gp.ui.commandNum --;
 			if (gp.ui.commandNum < 0)
-				gp.ui.commandNum = 2;
+				gp.ui.commandNum = 3;
 		}
-		if (code == KeyEvent.VK_S) {
+		if (code == KeyEvent.VK_DOWN) {
 			gp.ui.commandNum ++;
-			if (gp.ui.commandNum > 2)
+			if (gp.ui.commandNum > 3)
 				gp.ui.commandNum = 0;
 		}
 
 		if (code == KeyEvent.VK_ENTER) {
 			if (gp.ui.commandNum == 0) {
-				gp.gameState = gp.playState;
+				gp.gameState = GameState.PLAY_STATE;
 			}
 			if (gp.ui.commandNum == 1) {
-				gp.gameState = gp.playState;
+				gp.gameState = GameState.PLAY_STATE;
 			}
 			if (gp.ui.commandNum == 2) {
+				System.out.println("settings menu");
+			}
+			if (gp.ui.commandNum == 3) {
 				System.exit(0);
 			}
 		}
 	}
+
 	void pauseState(int code) {
 		if (code == KeyEvent.VK_P) {
-			gp.gameState = gp.playState;
+			gp.gameState = GameState.PLAY_STATE;
 		}
 	}
+
 	void deskState(int code) {
 		if (code == KeyEvent.VK_E || code == KeyEvent.VK_ESCAPE) {
-			gp.gameState = gp.playState;
+			gp.gameState = GameState.PLAY_STATE;
 		}
 
 		ObjectDesk desk = (ObjectDesk)gp.objMap.get(gp.player.objPointColliding);
@@ -109,9 +115,10 @@ public class KeyHandler implements KeyListener {
 			desk.getItems();
 		}
 	}
-	void toiletState (int code) {
+
+	void toiletState(int code) {
 		if (code == KeyEvent.VK_E || code == KeyEvent.VK_ESCAPE) {
-			gp.gameState = gp.playState;
+			gp.gameState = GameState.PLAY_STATE;
 		}
 		if (code == KeyEvent.VK_W) {
 			if (((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).slotRow != 0)
@@ -142,7 +149,7 @@ public class KeyHandler implements KeyListener {
 	}
 	void playState(int code) {
 		if (code == KeyEvent.VK_ESCAPE) {
-			gp.gameState = gp.titleState;
+			gp.gameState = GameState.TITLE_STATE;
 		}
 		if (code == KeyEvent.VK_SPACE) {
 			spacePressed = true;
@@ -172,13 +179,13 @@ public class KeyHandler implements KeyListener {
 		if (code == KeyEvent.VK_E) {
 			if (gp.player.objPointColliding != null) {
 				if (gp.objMap.get(gp.player.objPointColliding).name.equals("Desk"))
-					gp.gameState = gp.deskState;
+					gp.gameState = GameState.DESK_STATE;
 				if (gp.objMap.get(gp.player.objPointColliding).name.equals("toilet"))
-					gp.gameState = gp.toiletState;
+					gp.gameState = GameState.TOILET_STATE;
 			}
 		}
 		if (code == KeyEvent.VK_P) {
-			gp.gameState = gp.pauseState;
+			gp.gameState = GameState.PAUSE_STATE;
 		}
 		if (code == KeyEvent.VK_R) {
 			gp.tileM.loadMap("resources/maps/map2.txt");

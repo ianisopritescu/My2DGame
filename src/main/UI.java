@@ -1,5 +1,7 @@
 package main;
 
+import constants.GameState;
+import constants.General;
 import object.ObjectDesk;
 import object.ObjectToilet;
 import ui.Hotbar;
@@ -7,6 +9,7 @@ import ui.Hotbar;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+
 
 public class UI {
 	GamePanel gp;
@@ -22,20 +25,20 @@ public class UI {
 	public void draw(Graphics2D g2d) {
 		this.g2d = g2d;
 
-		if (gp.gameState == gp.titleState) {
+		if (gp.gameState == GameState.TITLE_STATE) {
 			drawTitleScreen();
 		}
-		if (gp.gameState == gp.playState) {
+		if (gp.gameState == GameState.PLAY_STATE) {
 			drawHotbar();
 		}
-		if (gp.gameState == gp.pauseState) {
+		if (gp.gameState == GameState.PAUSE_STATE) {
 			drawPauseScreen();
 		}
-		if (gp.gameState == gp.deskState) {
+		if (gp.gameState == GameState.DESK_STATE) {
 			((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).drawInventory(g2d);
 			drawHotbar();
 		}
-		if (gp.gameState == gp.toiletState) {
+		if (gp.gameState == GameState.TOILET_STATE) {
 			((ObjectToilet)gp.objMap.get(gp.player.objPointColliding)).drawInventory(g2d);
 			drawHotbar();
 		}
@@ -44,13 +47,14 @@ public class UI {
 		g2d.setColor(new Color(0, 0,0, 20));
 		g2d.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
-		g2d.setFont(new Font("Consolas", Font.PLAIN, 30));
+		g2d.setFont(General.mainFont().deriveFont(Font.PLAIN, 50));
 		g2d.setColor(Color.white);
 		FontMetrics fm = g2d.getFontMetrics(g2d.getFont());
 		int x = (gp.screenWidth - fm.stringWidth("PAUSE")) / 2;
 		int y = (gp.screenHeight - fm.getHeight()) / 2 + fm.getAscent();
 		g2d.drawString("PAUSE", x, y);
 	}
+
 	public void drawTitleScreen() {
 		// Background Color
 		Color cPink = new Color(205, 127, 50);
@@ -59,12 +63,7 @@ public class UI {
 		g2d.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
 		// Title text
-		Font sSFont;
-		try {
-			sSFont = Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/something_strange.ttf"));
-		} catch (IOException | FontFormatException e) {
-			throw new RuntimeException(e);
-		}
+		Font sSFont = General.mainFont();
 		sSFont = sSFont.deriveFont(Font.BOLD, 70);
 		g2d.setFont(sSFont);
 
@@ -72,7 +71,7 @@ public class UI {
 
 		FontMetrics fm = g2d.getFontMetrics(sSFont);
 		int x = (gp.screenWidth - fm.stringWidth(text)) / 2;
-		int y = (gp.screenHeight - fm.getHeight()) / 2 - 20;
+		int y = (gp.screenHeight - fm.getHeight()) / 3 - 20;
 
 		g2d.setFont(sSFont);
 
@@ -88,26 +87,34 @@ public class UI {
 		g2d.setColor(Color.white);
 
 		text = "NEW GAME";
-		x = (gp.screenWidth - g2d.getFontMetrics(sSFont).stringWidth(text)) / 2;
-		y += 2 * fm.getAscent() + gp.originalTileSize;
+		x = gp.screenWidth * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
+		y += 4 * fm.getAscent() + gp.originalTileSize;
 		g2d.drawString(text, x, y);
 		if (commandNum == 0) {
 			g2d.drawString(">", x - 35, y);
 		}
 
 		text = "LOAD GAME";
-		x = (gp.screenWidth - g2d.getFontMetrics(sSFont).stringWidth(text)) / 2;
+		x = gp.screenWidth * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
 		y += g2d.getFontMetrics(sSFont).getAscent() + gp.originalTileSize;
 		g2d.drawString(text, x, y);
 		if (commandNum == 1) {
 			g2d.drawString(">", x - 35, y);
 		}
 
-		text = "QUIT";
-		x = (gp.screenWidth - g2d.getFontMetrics(sSFont).stringWidth(text)) / 2;
+		text = "SETTINGS";
+		x = gp.screenWidth * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
 		y += g2d.getFontMetrics(sSFont).getAscent() + gp.originalTileSize;
 		g2d.drawString(text, x, y);
 		if (commandNum == 2) {
+			g2d.drawString(">", x - 35, y);
+		}
+
+		text = "QUIT";
+		x = (gp.screenWidth) * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
+		y += g2d.getFontMetrics(sSFont).getAscent() + gp.originalTileSize;
+		g2d.drawString(text, x, y);
+		if (commandNum == 3) {
 			g2d.drawString(">", x - 35, y);
 		}
 	}

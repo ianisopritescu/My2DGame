@@ -115,7 +115,6 @@ public class Player extends Entity implements Subject {
 		}
 
 		String objName = gp.objMap.get(currObjPoint).name;
-		System.out.println(gp.objMap.get(currObjPoint).worldX + " " + gp.objMap.get(currObjPoint).worldY);
 		switch (objName) {
 			case "yellow_door":
 			case "red_door":

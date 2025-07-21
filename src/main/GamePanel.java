@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import algorithms.PathFinder;
+import constants.GameState;
 import entity.Entity;
 import entity.Player;
 import io_handler.KeyHandler;
@@ -34,13 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int worldHeight = maxWorldRow * tileSize;
 
 	// Game States
-	public int gameState;
-	public final int titleState = 0;
-	public final int playState = 1;
-	public final int pauseState = 2;
-	public final int deskState = 3;
-	public final int toiletState = 4;
-
+	public GameState gameState;
 
 
 	private Thread gameThread;
@@ -65,9 +60,9 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void setupGame() {
+		gameState = GameState.TITLE_STATE;
 		aSetter.setEntities();
 		aSetter.setObjects();
-		gameState = titleState;
 	}
 
 	public void startGameThread() {
@@ -127,7 +122,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public void update() {
-		if (gameState == playState) {
+		if (gameState == GameState.PLAY_STATE) {
 			entities.values().forEach(Entity::update);
 			player.update();
 		}
@@ -143,7 +138,7 @@ public class GamePanel extends JPanel implements Runnable {
 			drawStart = System.nanoTime();
 		}
 
-		if (gameState == titleState) {
+		if (gameState == GameState.TITLE_STATE) {
 			ui.draw(g2d);
 		} else {
 			// Tiles
