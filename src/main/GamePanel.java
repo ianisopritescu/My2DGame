@@ -138,7 +138,7 @@ public class GamePanel extends JPanel implements Runnable {
 			drawStart = System.nanoTime();
 		}
 
-		if (gameState == GameState.TITLE_STATE) {
+		if (gameState != GameState.PLAY_STATE) {
 			ui.draw(g2d);
 		} else {
 			// Tiles

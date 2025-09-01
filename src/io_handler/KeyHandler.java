@@ -36,6 +36,8 @@ public class KeyHandler implements KeyListener {
 
 		if (gp.gameState == GameState.TITLE_STATE) {
 			titleState(code);
+		} else if (gp.gameState == GameState.SETTINGS_MM_STATE) {
+			settingsState(code);
 		} else if (gp.gameState == GameState.PLAY_STATE) {
 			playState(code);
 		} else if (gp.gameState == GameState.PAUSE_STATE) {
@@ -67,7 +69,35 @@ public class KeyHandler implements KeyListener {
 				gp.gameState = GameState.PLAY_STATE;
 			}
 			if (gp.ui.commandNum == 2) {
-				System.out.println("settings menu");
+				gp.gameState = GameState.SETTINGS_MM_STATE;
+			}
+			if (gp.ui.commandNum == 3) {
+				System.exit(0);
+			}
+		}
+	}
+
+	void settingsState(int code) {
+		if (code == KeyEvent.VK_UP) {
+			gp.ui.commandNum --;
+			if (gp.ui.commandNum < 0)
+				gp.ui.commandNum = 3;
+		}
+		if (code == KeyEvent.VK_DOWN) {
+			gp.ui.commandNum ++;
+			if (gp.ui.commandNum > 3)
+				gp.ui.commandNum = 0;
+		}
+
+		if (code == KeyEvent.VK_ENTER) {
+			if (gp.ui.commandNum == 0) {
+
+			}
+			if (gp.ui.commandNum == 1) {
+
+			}
+			if (gp.ui.commandNum == 2) {
+				gp.gameState = GameState.TITLE_STATE;
 			}
 			if (gp.ui.commandNum == 3) {
 				System.exit(0);

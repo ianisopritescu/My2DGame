@@ -5,7 +5,8 @@ public enum GameState {
     PLAY_STATE(1),
     PAUSE_STATE(2),
     DESK_STATE(3),
-    TOILET_STATE(4);
+    TOILET_STATE(4),
+    SETTINGS_MM_STATE(5);
 
     private final int index;
 

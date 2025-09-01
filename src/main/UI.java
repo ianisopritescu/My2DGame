@@ -7,8 +7,6 @@ import object.ObjectToilet;
 import ui.Hotbar;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 
 public class UI {
@@ -33,6 +31,9 @@ public class UI {
 		}
 		if (gp.gameState == GameState.PAUSE_STATE) {
 			drawPauseScreen();
+		}
+		if (gp.gameState == GameState.SETTINGS_MM_STATE) {
+			drawSettingsMenu();
 		}
 		if (gp.gameState == GameState.DESK_STATE) {
 			((ObjectDesk)gp.objMap.get(gp.player.objPointColliding)).drawInventory(g2d);
@@ -103,6 +104,74 @@ public class UI {
 		}
 
 		text = "SETTINGS";
+		x = gp.screenWidth * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
+		y += g2d.getFontMetrics(sSFont).getAscent() + gp.originalTileSize;
+		g2d.drawString(text, x, y);
+		if (commandNum == 2) {
+			g2d.drawString(">", x - 35, y);
+		}
+
+		text = "QUIT";
+		x = (gp.screenWidth) * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
+		y += g2d.getFontMetrics(sSFont).getAscent() + gp.originalTileSize;
+		g2d.drawString(text, x, y);
+		if (commandNum == 3) {
+			g2d.drawString(">", x - 35, y);
+		}
+	}
+
+	public void drawSettingsMenu() {
+		g2d.setPaint(new GradientPaint(
+				(float) gp.screenWidth,
+				(float) gp.screenHeight,
+				new Color(205, 127, 50),
+				0,
+				0,
+				Color.black
+		));
+		g2d.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+
+		// Title text
+		Font sSFont = General.mainFont();
+		sSFont = sSFont.deriveFont(Font.BOLD, 70);
+		g2d.setFont(sSFont);
+
+		String text = "SETTINGS";
+
+		FontMetrics fm = g2d.getFontMetrics(sSFont);
+		int x = (gp.screenWidth - fm.stringWidth(text)) / 2;
+		int y = (gp.screenHeight - fm.getHeight()) / 3;
+
+		g2d.setFont(sSFont);
+
+		g2d.setColor(new Color(72, 72, 72));
+		g2d.drawString(text, x + 3, y + 3);
+
+		g2d.setColor(Color.white);
+		g2d.drawString(text, x, y);
+
+		// Menu Items
+		sSFont = sSFont.deriveFont(Font.BOLD, 45);
+		g2d.setFont(sSFont);
+		g2d.setColor(Color.white);
+
+		text = "Volume";
+		x = gp.screenWidth * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
+		y += 4 * fm.getAscent() + gp.originalTileSize;
+		g2d.drawString(text, x, y);
+		if (commandNum == 0) {
+			g2d.drawString(">", x - 35, y);
+		}
+
+		text = "Resolution";
+		x = gp.screenWidth * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
+		y += g2d.getFontMetrics(sSFont).getAscent() + gp.originalTileSize;
+		g2d.drawString(text, x, y);
+		if (commandNum == 1) {
+			g2d.drawString(">", x - 35, y);
+		}
+
+		text = "Back";
 		x = gp.screenWidth * 5 / 6 - g2d.getFontMetrics(sSFont).stringWidth(text);
 		y += g2d.getFontMetrics(sSFont).getAscent() + gp.originalTileSize;
 		g2d.drawString(text, x, y);
